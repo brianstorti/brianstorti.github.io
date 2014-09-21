@@ -6,8 +6,7 @@ title: An introduction to UNIX processes
 Processes are a very important piece in the UNIX world. Basically, almost every program that you execute is running
 in a process.  
 Although you may not need to interact directly with them all the time, you are certainly depending on
-them to get anything done in a UNIX system, so I think it's worth to have at least a basic knowledge of how they
-work.
+them to get anything done in a UNIX system.
 
 ## First things first: What is a process?
 
