@@ -1,5 +1,5 @@
 name: Brian Storti
-meta_description: "blog posts written by Brian Thomas Storti"
+meta_description: "blog posts written by Brian Storti"
 
 markdown: redcarpet
 highlighter: pygments
@@ -8,5 +8,5 @@ permalink: /:title
 port: 4567
 
 # Details for the RSS feed generator
-url:            'blog url'
-author:         'Your Name'
+url:            'brianstorti.github.io'
+author:         'Brian Storti'
