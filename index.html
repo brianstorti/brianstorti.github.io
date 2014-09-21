@@ -20,7 +20,13 @@ title: Brian Storti
 
         </header>
         <section class="post-excerpt">
-            {{ post.intro }}
+            {% if post.intro %}
+              {{ post.intro }}
+            {% else %}
+              {{ post.excerpt }}
+            {%endif%}
+
+            <p> <a href="{{ post.url }}">Read more</a> </p>
         </section>
     </article>
 
