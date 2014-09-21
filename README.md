@@ -1,6 +1,6 @@
 # About
 
-This is the code for my blog. It's a customization of the [Kasper](https://github.com/rosario/kasper) theme for Jekyll.  
+This is the code for my blog. It's a customization of the [Kasper](https://github.com/rosario/kasper) theme for [Jekyll](http://jekyllrb.com/).  
 Feel free to fork, change, modify and re-use it.
 
 ## How to use it
