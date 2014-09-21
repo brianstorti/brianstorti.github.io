@@ -131,7 +131,7 @@ that the *ProductRepresentation* is still getting the correct data in the correc
 ## Conclusion
 
 As always, this is not the best approach for all the cases, if you have a very small API dealing with simple data structures, or if you have just one client in a very controlled environment, it might not
-be worthy to have this extra work of building your responses.
+be worth to have this extra work of building your responses.
 
 Even in these cases, though, I think it's a nice exercise to think how coupled is your server to your client, and what would be the
 impact of minimizing this coupling, allowing both server and client to grow and evolve as independently as possible.
