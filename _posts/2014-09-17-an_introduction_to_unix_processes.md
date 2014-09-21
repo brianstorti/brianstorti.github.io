@@ -170,7 +170,7 @@ When a process receives a signal, it can carry out the default action for that s
 You can run `kill -l` to see the list of available signals that can be sent. Each one of these signals also have an equivalent numeric value. For instance,
 one of the most used signals, `KILL`, can be represented by the number `9`.
 
-You can send a signal to a process with the `kill` command. For instance, if you want to kill that `vim` process that process that is running (with a PID 27267),
+You can send a signal to a process with the `kill` command. For instance, if you want to kill that `vim` process that is running (with a PID 27267),
 you can run any of these commands:
 
 ```bash
