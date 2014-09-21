@@ -1,0 +1,12 @@
+name: Brian Storti
+meta_description: "blog posts written by Brian Thomas Storti"
+
+markdown: redcarpet
+highlighter: pygments
+logo: false
+permalink: /:title
+port: 4567
+
+# Details for the RSS feed generator
+url:            'blog url'
+author:         'Your Name'
