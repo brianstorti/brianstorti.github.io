@@ -80,7 +80,7 @@ Well, there are a few problems with this approach, but I want to talk specifical
 
 This approach is very server-centric: A small change in the server might break its clients. That's definitely not what we want for our APIs.
 
-Refactoring an internal behaviour shouldn't require changes in the clients. Imagine having the publish a new version of your API every time
+Refactoring an internal behaviour shouldn't require changes in the clients. Imagine having to publish a new version of your API every time
 you want to rename a field. You don't want your clients to have this knowledge of your internal structure, it kills your ability to change.
 
 Besides that, it just make it harder for the client to use this response. Why should it care about a "businessId"?
