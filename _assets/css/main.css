@@ -19,27 +19,23 @@ body {
 
 /* Reduce font size and add line-height*/
 pre{
-	font-size: 0.75em;
-	line-height: 1.4em;
+  font-size: 0.75em;
+  line-height: 1.4em;
 }
 
 /* Author styling */
 .author {margin-bottom:1em;}
 .author header{
-	float:left;
-	width: 80px;
+  float:left;
+  width: 80px;
 }
 .author article{
-	margin-left:80px;
-	min-height: 80px;
-	padding-left:20px;
+  margin-left:80px;
+  min-height: 80px;
+  padding-left:20px;
 }
 img.profile {
-	width:80px;
-	height:auto;
-  	border-radius: 50px;
-}
-
-.foo {
-  color: red;
+  width:80px;
+  height:auto;
+  border-radius: 50px;
 }
