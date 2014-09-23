@@ -10,3 +10,5 @@ port: 4567
 # Details for the RSS feed generator
 url:            'brianstorti.github.io'
 author:         'Brian Storti'
+
+gems: [jekyll_asset_pipeline]
