@@ -6,7 +6,7 @@ end
 desc "create a new post"
 task :post do
   today = Time.now.strftime('%Y-%m-%d')
-  title = ENV['title'].downcase.gsub(" ", "_").gsub(/[^0-9A-Za-z_]/, '').strip
+  title = ENV['title'].downcase.gsub(" ", "-").gsub(/[^0-9A-Za-z-]/, '').strip
   title = "#{today}-#{title}.md"
   file = File.join("./_posts", title)
 
