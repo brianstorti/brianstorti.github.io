@@ -1,6 +1,6 @@
 ---
 layout: default
-disqus: false
+disqus: true
 archive: false
 about: '/about.html'
 ---
@@ -28,7 +28,7 @@ about: '/about.html'
           <!-- If we want to display author's name and bio -->
             {% if site.author %}
                 <section class="author">
-                  <header> <a href="{{ page.about }}"> <img class="profile" src="/assets/images/profile.png" alt="Author's profile picture"></a></header>
+                  <header> <a href="{{ page.about }}"> <img class="profile" src="/images/profile.png" alt="Author's profile picture"></a></header>
                   <article>
                     <!-- Author Name -->
                     Written by <h4 class="author-name"><a href="{{page.about}}">Brian Thomas Storti</a></h4>
@@ -56,8 +56,7 @@ about: '/about.html'
             <section class="disqus">
               <div id="disqus_thread"></div>
               <script type="text/javascript">
-
-                  var disqus_shortname = '';
+                var disqus_shortname = 'brianstorti';
                 var disqus_developer = 0; // developer mode is on
                   (function() {
                       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -69,9 +68,6 @@ about: '/about.html'
               <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
             </section>
             {% endif %}
-
         </footer>
-
     </article>
-
 </main>

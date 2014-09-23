@@ -11,24 +11,24 @@
     <meta name="MobileOptimized" content="320" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" type="text/css" href="/assets/css/normalize.css" />
-    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
-    <!-- This is for syntax highlight -->
-    <link rel="stylesheet" type="text/css" href="/assets/css/syntax.css">
-    <!-- Customisation  -->
-    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+    {% css_asset_tag global %}
+    - /_assets/css/normalize.css
+    - /_assets/css/screen.css
+    - /_assets/css/syntax.css
+    - /_assets/css/main.css
+    {% endcss_asset_tag %}
 
+    {% javascript_asset_tag global %}
+    - /_assets/js/index.js
+    - /_assets/js/jquery-1.10.2.min.js
+    - /_assets/js/jquery.fitvids.js
+    {% endjavascript_asset_tag %}
+
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
 </head>
 <body class="home-template">
 
     {{ content }}
-
-
-    <script type="text/javascript" src="/assets/js/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
-    <script type="text/javascript" src="/assets/js/index.js"></script>
-
 
     <!-- Send to kindle -->
     <script type="text/javascript" src="https://d1xnn692s7u6t6.cloudfront.net/widget.js"></script>
