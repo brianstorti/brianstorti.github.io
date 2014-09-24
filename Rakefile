@@ -1,6 +1,6 @@
 desc "compile and run the site"
 task :default do
-  system "jekyll server"
+  system "jekyll serve --watch"
 end
 
 desc "create a new post"
