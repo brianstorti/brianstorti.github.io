@@ -1,6 +1,6 @@
 ---
 layout: post
-title: A introduction to UNIX processes
+title: An introduction to UNIX processes
 ---
 
 Processes are a very important piece in the UNIX world. Basically, almost every program that you execute is running
