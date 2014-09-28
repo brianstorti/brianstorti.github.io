@@ -35,14 +35,14 @@ Expires: Mon, 29 Sep 2014 10:00:00 GMT
 [RESPONSE BODY]
 ```
 
-Notice that if the date format is not correct, it will be considered stale. Also you need to make sure that your web server clock and the cache
+Notice that if the date format is not correct, it will be considered stale. Also, you need to make sure that your web server clock and the cache
 are syncronized.
 
 #### Cache-Control
 In HTTP 1.1, the `Expires` header was deprecated and `Cache-Control` is the alternative. If both `Expires` and `Cache-Control` headers are found, `Expires`
 will be ignored.  
 
-`Cache-Control` works with a bunch of directives to specify how it should behave. We will talk about three of them:  `max-age`, `private`, `no-cache`.
+`Cache-Control` works with a bunch of directives to specify how it should behave. We will talk about three of them:  `max-age`, `private` and `no-cache`.
 You can see the entire list [here](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9).
 
 **max-age**: This directive specifies for how many seconds (from the request time) the representation should be considered fresh. It works like the `Expires` header,
@@ -95,7 +95,7 @@ If-Modified-Since: Sun, 28 Set 2014 10:00:00 GMT
 [REQUEST BODY]
 ```
 
-The origin server then checks if the representation was changed after the date received in the `Last-Modified` header, and, if it was not changed, it
+The origin server then checks if the representation was changed after the date received in the `If-Modified-Since` header, and, if it was not changed, it
 just sends a `304 Not Modified` response:
 
 ```http
@@ -328,7 +328,7 @@ Connection: Keep-Alive
 the resource representation
 ```
 
-We can see the `Etag` header there. All we need to do is to save that value, and send it in the `If-None-Match` for the next request:
+We can see the `Etag` header there. All we need to do is to save that value, and send it in the `If-None-Match` header for the next request:
 
 ```bash
 curl -i http://localhost:1234 --header 'If-None-Match: "f8d36c97fa01826fe14c1989e373d6e4"'
