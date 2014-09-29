@@ -239,9 +239,7 @@ require 'rack-cache'
 
 set :port, 1234
 
-use Rack::Cache do
-  set :verbose, true
-end
+use Rack::Cache
 
 get '/' do
   sleep 5
