@@ -15,7 +15,7 @@ Saying that an application server uses a forking model, simply put, means that i
 it is using multiple threads in each process or if it's just forking a new processes for every new request, as long as its concurrency strategy is based
 on spawning processes to handle more requests, I'll just consider it to be using a forking model.  
 
-The most used application server that follows this strategy is [Unicorn](http://unicorn.bogomips.org/).
+A well known application server that follows this strategy is [Unicorn](http://unicorn.bogomips.org/).
 
 ## The problem with slow clients
 
