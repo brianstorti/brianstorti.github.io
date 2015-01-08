@@ -36,7 +36,7 @@ Expires: Mon, 29 Sep 2014 10:00:00 GMT
 ```
 
 Notice that if the date format is not correct, it will be considered stale. Also, you need to make sure that your web server clock and the cache
-are syncronized.
+are synchronized.
 
 #### Cache-Control
 In HTTP 1.1, the `Expires` header was deprecated and `Cache-Control` is the alternative. If both `Expires` and `Cache-Control` headers are found, `Expires`
@@ -150,7 +150,7 @@ it already has stored.
 
 ## HTTP cache at work, a practical example
 
-To understand better this scenario, we will create a simple API that will incrementaly add some cache capability.  
+To understand better this scenario, we will create a simple API that will incrementally add some cache capability.  
 I am going to use [sinatra](http://www.sinatrarb.com/) to create this API, and [rack-cache](http://rtomayko.github.io/rack-cache/) as a reverse proxy 
 cache. The same concepts could be applied with any other stack, I choose these two tools because they are pretty simple and won't get in our way to understand
 how the cache is working, as this is our goal here.
@@ -182,7 +182,7 @@ end
 To run this server, just run `ruby server.rb`. It should be accessible at `http://localhost:1234`. Notice that you'll need to kill and start the server
 again after each change.
 
-When we send a request to this endpoint, you will notice that it will take 5 seconds untill we get a response back. To create this request, I'm going to
+When we send a request to this endpoint, you will notice that it will take 5 seconds until we get a response back. To create this request, I'm going to
 use `curl(1)` (with the `-i` parameter, so we can see the headers).
 
 ```bash
@@ -276,7 +276,7 @@ Now that we have the header `Cache-Control` in place, the next request should re
 the origin server. That's all it takes to have the `freshness` process working. The next step is the `validation` process, 
 and it is almost as easy.
 
-So we are already saving some network traffic by avoinding unnecessary requests while the representation is still fresh, but once it gets
+So we are already saving some network traffic by avoiding unnecessary requests while the representation is still fresh, but once it gets
 stale, we are still retrieving the entire representation in the response body, even if it didn't change at all. Let's fix that.
 
 ```ruby
@@ -346,7 +346,7 @@ Connection: Keep-Alive
 Now, instead of getting a `200 OK` response, with the entire representation in the body, we get a `304 Not Modified`, that does not include
 a body message. That saves us some bandwidth, as we don't need to send that entire representation, that can be pretty big, in the response.
 
-## Conslusion
+## Conclusion
 
 In a time where performance is a feature, doing good use of HTTP caching is one of the simplest ways to create applications and APIs
 that are more responsive. With the tools that we have available today, it's becoming easier and easier to use these well-established 
