@@ -30,7 +30,7 @@ $ ps
 27267 ttys002    0:06.82 vim
 ```
 
-We can pass a `-o` parameter to format the ouput with the information that we want. Let's run it again asking
+We can pass a `-o` parameter to format the output with the information that we want. Let's run it again asking
 for all the metadata we want to talk about:
 
 ```bash
@@ -47,7 +47,7 @@ $ ps -o pid,ppid,tty,uid,args
 
 **TTY**: This is a identifier of the terminal session that triggered this process. That's called the `controlling terminal`. 
 Almost every process will be attached to a terminal (except for daemons, that we'll talk about later). In my example you can see that
-I have two terminal sessions running (`ttys000` and `ttys0002`). You can check your curreny tty with the, surprise, `tty` command:
+I have two terminal sessions running (`ttys000` and `ttys0002`). You can check your current tty with the, surprise, `tty` command:
 
 ```bash
 $ tty
@@ -124,7 +124,7 @@ $ echo $?
 1
 ```
 
-The status `0` represents that the process was executed successfully, while `1` represents a failure, when we tried to cd into an inexisting directory.  
+The status `0` represents that the process was executed successfully, while `1` represents a failure, when we tried to cd into a directory that does not exist.  
 The parent process then can read this code through the `wait` system call.  
 If the child process exits and, for some reason, the parent fails to call `wait`,
 we have what is called a **zombie process**.
@@ -140,19 +140,19 @@ it just waits until the parent performs a call to `wait`, and then it can be ful
 Every process stay in a zombie state, at least for a short period of time, between the moment it exits, and the moment the parent reads its exit code.
 
 A process becomes an orphan when it's still running, but its parent exits. What happens is that the child process is "adopted" by the initial process,
-the first process that is executed in the system, ususally called `init` (`launchd` if you are on a Mac OS). The PPID (parent id) of an orphan process
+the first process that is executed in the system, usually called `init` (`launchd` if you are on a Mac OS). The PPID (parent id) of an orphan process
 with be `1`.  
 A process can be orphaned unintentionally, when the parent process crashed, for instance, but it also can be orphaned intentionally, usually when you want
 a long running process to be detached from a user session, as is the case for `daemons` processes.
 
 ## Daemon processes
 
-A `daemon` process is, simply speaking, a process that runs in the backgroung, and is not attached to a controlling terminal. Database and web servers are
+A `daemon` process is, simply speaking, a process that runs in the background, and is not attached to a controlling terminal. Database and web servers are
 good examples of daemons. There are also a bunch of daemons that are responsible for keeping your system working as it's.  
 
 There is one specially important `daemon`, the first process created on the system: the `init` process. It's the grandparent of all the other processes.  
 The `init` process can spawn new processes that will be `daemons`, or a process can become a `daemon` by being intentionally made an orphan, as we saw 
-before (forking a child and immediatelly exiting).
+before (forking a child and immediately exiting).
 You'll also notice that, by convention, `daemons` names usually end with a "d": `syslogd`, `sshd`, `httpd`, and so on.  
 
 But if these `daemons` are not attached to a controlling terminal, how can someone actually terminate these processes? Well, one way is by sending them a signal.
@@ -183,7 +183,7 @@ That's also what happens when you hit `Ctrl-c` to terminate a program in your te
 as a consequence, it should terminate.
 
 With the exception of `SIGKILL` and `SIGSTOP`, processes can `trap` a signal to perform some custom action (or just ignore it). That's why sometimes `Ctrl-c`
-doesn't seem to work, the target process probably traped it to do something (e.g. remove temporary files or close connections) before actually exit.
+doesn't seem to work, the target process probably trapped it to do something (e.g. remove temporary files or close connections) before actually exit.
 
 One interesting exception is the `init` process, that can ignore even a `SIGKILL` or a `SIGSTOP` signal. The reason is that the kernel forces a system 
 crash if the `init` process terminates, so it will not deliver any fatal signal to this process.
@@ -197,5 +197,5 @@ crash if the `init` process terminates, so it will not deliver any fatal signal 
 * Processes always exit with an exit code;
 * A process is a zombie if it is already dead but its parent still didn't read its exit code with `wait`;
 * A process is an orphan if it is still alive but its parent isn't. The `init` process becomes the new parent;
-* A daemon is a process that runs in the backgroung, and is not attached to a controlling terminal;
+* A daemon is a process that runs in the background, and is not attached to a controlling terminal;
 * Signals are messages sent from one process to another.
