@@ -11,9 +11,8 @@ But first we need to understand what a forking model is.
 
 ## The forking model
 
-Saying that an application server uses a forking model, simply put, means that it will spawn processes to handle new requests. It doesn't matter if
-it is using multiple threads in each process or if it's just forking a new processes for every new request, as long as its concurrency strategy is based
-on spawning processes to handle more requests, I'll just consider it to be using a forking model.  
+Saying that an application server uses a forking model, simply put, means that it will spawn processes to handle new requests. As long as its 
+concurrency strategy is based on using new processes to handle more requests, we can consider it to be using a forking model.  
 
 A well known application server that follows this strategy is [Unicorn](http://unicorn.bogomips.org/).
 
@@ -33,14 +32,19 @@ When all of your worker processes are busy (maybe just because they are blocked 
 
 A reverse proxy (like [Nginx](http://nginx.com/)) seats in front of your application server (say, Unicorn), and can offer a sort of buffering system.  
 
-This buffering reverse proxy can handle an "unlimited" number of requests. As they are just responsible for receiving and delivering requests/responses,
-they are pretty cheap and we can have a lot of them.  
-Nginx, for instance, uses an Evented I/O model (just like Node.js), rather than the forking model, which means it will never be blocked by a slow client.
+This buffering reverse proxy can handle an "unlimited" number of requests, and is not affected by slow clients.  
+Nginx, for instance, uses a non-blocking Evented I/O model (rather than the I/O blocking forking model that Unicorn uses), which means that,
+when it receives a new request, it will perform a read call (I/O operation), and will not be blocked waiting for a response, being immediately
+available to handle new requests. When the read operation finishes, the operational system will send an event notification, and the appropriate event handler can be called
+(passing the request to the application server, for instance).
 
 The scenario above, with a buffering reverse proxy, would be something like this: The slow client makes a large request. The buffering reverse proxy will wait
 until it gets the entire request, then it will pass this request to the application server, which will just process it and deliver the response back to the
-reverse proxy, being free to receive new requests. The reverse proxy then will send this response back to the slow client. It doesn't really matter much that
-it will take a long time to receive and deliver the requests/responses to these clients, as we can have a lot of "workers" in the buffering side, that will be able
-to receive new requests.  
+reverse proxy, being free to receive new requests. The reverse proxy then will send this response back to the slow client.  
+It doesn't really matter much that it will take a long time to receive and deliver the requests/responses to these clients, as the reverse proxy will not be
+blocked by these I/O operations (due to its concurrency model nature).
 
-Now the application server processes are responsible just for the processing of the request, not being blocked by these slow clients anymore.
+Now the application server processes are responsible just for processing the request, not being blocked by these slow clients anymore.
+
+The conclusion here is that, if you are using an application server that is blocked by I/O operations, it's a pretty good idea to put a reverse proxy in front
+of it, that can handle this kind of situations (and, possibly, do a lot more).
