@@ -8,7 +8,7 @@ We can see it being used everywhere to call a method on every `array` element, b
 
 ## In case you don't know Ruby's `map`
 
-`map` is used to to execute a block of code for each element of a given `Enumerable` object, like an `Array`. Here's an example:
+`map` is used to execute a block of code for each element of a given `Enumerable` object, like an `Array`. Here's an example:
 
 ```ruby
 class Foo
