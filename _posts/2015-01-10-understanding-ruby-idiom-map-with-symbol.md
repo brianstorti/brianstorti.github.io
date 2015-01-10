@@ -21,8 +21,8 @@ end
   element.method_name
 end
 
-# => 70339841711300
-# => 70339841711280
+# => method called for 70339841711300
+# => method called for 70339841711280
 ```
 
 As we are just calling `method_name` for each element of the list, Ruby allows us to use this idiom:
