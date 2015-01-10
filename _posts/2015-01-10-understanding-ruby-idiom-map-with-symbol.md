@@ -49,7 +49,7 @@ end
 # => trying to convert to a proc
 ```
 
-> If don't know what a `Proc` is, you can consider it to be just like a `lambda` or a `closure`.
+> If you don't know what a `Proc` is, you can consider it to be just like a `lambda` or a `closure`.
 > It's a piece of code that can be moved around and executed (by calling `call()` on it, for instance).
 
 As we passed a `MyClass` instance with `&` to `map`, it tried to call `to_proc` on it. This holds true for any method call, not just `map`.
