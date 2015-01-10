@@ -85,7 +85,7 @@ def my_map(enumerable, &block)
 end
 ```
 
-We iterate over the `Enumerable` object and execute that given block. We now that `block` is going to be a `Proc`, because Ruby called `to_proc` on it, so we can just `call` it.  
+We iterate over the `Enumerable` object and execute that given block. We know that `block` is going to be a `Proc`, because Ruby called `to_proc` on it, so we can just `call` it.  
 And this works.
 
 ```ruby
