@@ -89,7 +89,7 @@ We iterate over the `Enumerable` object and execute that given block. We know th
 And this works.
 
 ```ruby
-p my_map(["foo", "bar"], &:upcase)
+my_map(["foo", "bar"], &:upcase)
 # => ["FOO", "BAR"]
 ```
 
@@ -115,7 +115,7 @@ need to use Ruby's `send` to call it.
 And this works.
 
 ```ruby
-p my_map(["foo", "bar"], &MySymbol.new("upcase"))
+my_map(["foo", "bar"], &MySymbol.new("upcase"))
 # => ["FOO", "BAR"]
 ```
 
