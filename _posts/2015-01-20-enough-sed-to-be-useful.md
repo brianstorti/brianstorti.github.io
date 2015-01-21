@@ -115,7 +115,7 @@ $ sed -i'' -e '/foo/d' file.txt
 
 ##### `sed` works better with friends
 
-And its better friend is usually `find`. This is a utility to, well, find something in your filesystem. We'll usually use it to find files that we want to change.
+And its best friend is usually `find`. This is a utility to, well, find something in your filesystem. We'll usually use it to find files that we want to change.
 
 Just pretend you made a terrible mistake and logged some users' password. You are rotating your logs, so you can have dozens of log files, and now
 you need to find and remove all the lines with the word "password", from all your log files. Now that you know how `sed` works, this should be easy:
