@@ -96,18 +96,18 @@ We can do better.
 ### The binary heap
 
 The most common data structure used to implement a priority queue is the binary heap, that is basically a binary tree with some additional properties.
-The binary heap is a **complete binary tree**, meaning that it's fully balanced, or, in other words, that all the levels of the tree a filled with elements, except possibly for the
+The binary heap is a **complete binary tree**, meaning that it's fully balanced, or, in other words, that all the levels of the tree are filled with elements, except possibly for the
 last level of the tree.
 
-The other thing that distinguishes a binary heap is that it comply with the **heap property**, meaning that all the nodes are greater (or equal) than their children.
+The other thing that distinguishes a binary heap is that it complies with the **heap property**, meaning that all the nodes are greater (or equal) than their children.
 <img src="/assets/images/heap.svg">
 <div class="image-description">
 *Example of a binary heap. Notice that it's a fully balanced binary tree, where all the nodes are greater than their children*
 </div>
 
 One thing that is very interesting about binary heaps is that they can be represented as a simple array. There is no need for links or any complex data structure, just a
-simple array. If you think about, it makes a lot of sense. The children of an element at a given index `i` will always be in `2i` and `2i + 1`. The same way, the parent
-of this node will be at the index `i / 2`.
+simple array. If you think about it, it makes a lot of sense. The children of an element at a given index `i` will always be in `2i` and `2i + 1`. The same way, the parent
+of this node will be at the index `i/2`.
 
 ```ruby
 # 0  1    2   3   4   5  6   7  8  9
