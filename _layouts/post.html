@@ -9,6 +9,12 @@ about: '/about.html'
   <a href="/">See all posts</a>
 </header>
 
+{% if page.draft %}
+<div class="draft-warning">
+  <h1>THIS IS A DRAFT. DO NOT SHARE.</h1>
+</div>
+{% endif %}
+
 <main class="content" role="main">
     <article class="post">
         <h1 class="post-title">{{ page.title }}</h1>

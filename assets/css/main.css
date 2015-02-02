@@ -45,3 +45,11 @@ img.profile {
   padding-right: 20px;
   font-size: 20px;
 }
+
+.draft-warning {
+  color: red;
+  text-align:center;
+  border: 3px solid;
+  padding: 15px;
+  margin: 15px;
+}

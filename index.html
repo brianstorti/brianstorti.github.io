@@ -12,23 +12,23 @@ title: Brian Storti
 
 <main class="content" role="main">
     {% for post in site.posts %}
+      {% unless post.draft %}
+        <article class="post">
+            <header class="post-header">
+                <h2 class="post-title"><a href="{{ post.url }}">{{ post.title }}</a></h2>
+                <span class="post-meta"><time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date_to_string }}</time> {{!tags prefix="on "}}</span>
 
-    <article class="post">
-        <header class="post-header">
-            <h2 class="post-title"><a href="{{ post.url }}">{{ post.title }}</a></h2>
-            <span class="post-meta"><time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date_to_string }}</time> {{!tags prefix="on "}}</span>
+            </header>
+            <section class="post-excerpt">
+                {% if post.intro %}
+                  {{ post.intro }}
+                {% else %}
+                  {{ post.excerpt }}
+                {%endif%}
 
-        </header>
-        <section class="post-excerpt">
-            {% if post.intro %}
-              {{ post.intro }}
-            {% else %}
-              {{ post.excerpt }}
-            {%endif%}
-
-            <p> <a href="{{ post.url }}">Read more</a> </p>
-        </section>
-    </article>
-
+                <p> <a href="{{ post.url }}">Read more</a> </p>
+            </section>
+        </article>
+      {% endunless %}
     {% endfor %}
 </main>

@@ -347,6 +347,9 @@ margin on the iframe, cause it breaks stuff. */
     vertical-align: middle;
 }
 
+.image-description {
+  text-align: center;
+}
 
 /* ==========================================================================
    4. General - The main styles for the the theme
@@ -975,7 +978,6 @@ margin on the iframe, cause it breaks stuff. */
         padding-top: 2rem;
         padding-bottom: 2rem;
     }
-
 }
 
 /* ==========================================================================
