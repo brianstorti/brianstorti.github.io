@@ -974,7 +974,7 @@ margin on the iframe, cause it breaks stuff. */
 
     .site-header {
         margin-top: 0rem;
-        font-size: 1.1rem;
+        font-size: 2rem;
         padding-top: 2rem;
         padding-bottom: 2rem;
     }
