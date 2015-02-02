@@ -140,8 +140,8 @@ class PriorityQueue
 end
 ```
 
-Just by doing this we already have a complete tree. The problem is that it violates the heap property. We need to make sure it is in the right place of the tree,
-meaning it is greater than its children, and smaller than its parent. This operation of putting a node in its place has many names, the most common being `bubble up` or
+Just by doing this we already have a complete binary tree. The problem is that it violates the heap property. We need to make sure the node is in the right place of the tree,
+meaning that it is greater than its children, and smaller than its parent. This operation of putting a node in its place has many names, the most common being `bubble up` or
 `heapify up`. So let's implement it:
 
 ```ruby
@@ -244,12 +244,12 @@ end
 
 The only caveat here is that logic to make sure we are always comparing against the largest child.  
 
-And that's all that we need to have a working priority queue!
+And that's all we need to have a working priority queue!
 
 ### Comparing the two implementations
 
 Just out of curiosity, let's run a simple benchmark to compare the performance of our real implementation, using the binary heap, with
-the naive implementation, that just sorts the array for every `pop`.
+the naive implementation, that just sorts the array for every `pop` operation.
 
 ```ruby
 require 'benchmark/ips'
@@ -268,7 +268,7 @@ end
 
 Benchmark.ips do |x|
   x.report("naive") { naive.pop }
-  x.report("real") { real.pop }
+  x.report("real")  { real.pop  }
 
   x.compare!
 end
@@ -293,7 +293,7 @@ In my machine, the naive implementation is about **37,745 times slower** than th
 
 ### Wrapping up
 
-The priority queue is a very useful data structure, that has a number of applications, from [thread scheduling](http://en.wikipedia.org/wiki/Scheduling_%28computing%29)
+The priority queue is a very useful data structure, that can be used to solve a bunch of problems, from [thread scheduling](http://en.wikipedia.org/wiki/Scheduling_%28computing%29)
 to [graph](http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) [searching](http://en.wikipedia.org/wiki/Prim%27s_algorithm) algorithms.  
 We can have a fully working (and with a quite good performance) priority queue with less than 50 lines of Ruby. And even if you are
 working with another language, that has a priority queue implementation in its standard library, implementing your own is always a good
