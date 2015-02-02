@@ -52,7 +52,7 @@ class Element
 end
 ```
 
-It includes the `Comparable` module and implements `<=>`, so we can sort a list of `Element`s.
+It includes the `Comparable` module and implements `<=>`, so we can compare two `Element`s.
 
 ### The naive implementation
 
@@ -98,11 +98,6 @@ We can do better.
 The most common data structure used to implement a priority queue is the binary heap, that is basically a binary tree with some additional properties.
 The binary heap is a **complete binary tree**, meaning that it's fully balanced, or, in other words, that all the levels of the tree a filled with elements, except possibly for the
 last level of the tree.
-
-<img src="/assets/images/binary_tree.svg">
-<div class="image-description">
-*Example of a complete binary tree*
-</div>
 
 The other thing that distinguishes a binary heap is that it comply with the **heap property**, meaning that all the nodes are greater (or equal) than their children.
 <img src="/assets/images/heap.svg">
@@ -176,7 +171,132 @@ Now we just need to call it after we add a new element:
 ```ruby
 def <<(element)
   @elements << element
-  # bubble up the last element
+  # bubble up the element that we just added
   bubble_up(@element.size - 1)
 end
 ```
+
+By doing this we already have a complete binary tree that complies with the heap property. Let's confirm that:
+
+```ruby
+q = PriorityQueue.new
+q << 2
+q << 3
+q << 1
+
+p q.elements # => [nil, 3, 2, 1]
+```
+
+##### Removing items from the queue
+
+The only thing missing to have a fully working priority queue is the ability to dequeue items.  
+As we are using a binary heap, we can assume that the root element will always be the one with the highest priority.
+
+```ruby
+def pop
+  # the first element will always be the max, because of the heap constraint
+  @elements[1]
+end
+```
+
+Now we can already retrieve the element with the highest priority. The only problem is that we are not actually removing it from
+the queue.  
+What we are going to do is something similar to what we did when we were adding items to the queue. We will exchange the root element
+with the last element of the queue, and then perform a process called `bubble down` (or `heapify-down`) in the new root element, to put
+it in the correct place of the tree.
+
+```ruby
+def pop
+  # exchange the root with the last element
+  exchange(1, @elements.size - 1)
+
+  # remove the last element of the list
+  max = @elements.pop
+
+  # and make sure the tree is ordered again
+  bubble_down(1)
+  max
+end
+
+def bubble_down(index)
+  child_index = (index * 2)
+
+  # stop if we reach the bottom of the tree
+  return if child_index > @elements.size - 1
+
+  # make sure we get the largest child
+  not_the_last_element = child_index < @elements.size - 1
+  left_element = @elements[child_index]
+  right_element = @elements[child_index + 1]
+  child_index += 1 if not_the_last_element && right_element > left_element
+
+  # there is not need to continue if the parent element if already bigger
+  # then its children
+  return if @elements[index] >= @elements[child_index]
+
+  exchange(index, child_index)
+
+  # repeat the process until we reach a point where the parent
+  # is larger than its children
+  bubble_down(child_index)
+end
+```
+
+The only caveat here is that logic to make sure we are always comparing against the largest child.  
+
+And that's all that we need to have a working priority queue!
+
+### Comparing the two implementations
+
+Just out of curiosity, let's run a simple benchmark to compare the performance of our real implementation, using the binary heap, with
+the naive implementation, that just sorts the array for every `pop`.
+
+```ruby
+require 'benchmark/ips'
+
+require_relative 'element'
+require_relative 'naive_priority_queue'
+require_relative 'priority_queue'
+
+naive = NaivePriorityQueue.new
+real = PriorityQueue.new
+
+100_000.times do |i|
+  naive << Element.new("Foo #{i}", i)
+  real  << Element.new("Foo #{i}", i)
+end
+
+Benchmark.ips do |x|
+  x.report("naive") { naive.pop }
+  x.report("real") { real.pop }
+
+  x.compare!
+end
+```
+
+And the results:
+
+```
+Calculating -------------------------------------
+               naive     4.000  i/100ms
+                real    17.516k i/100ms
+-------------------------------------------------
+               naive     46.521  (± 2.1%) i/s -    236.000
+                real      1.756M (± 8.6%) i/s -      8.723M
+
+Comparison:
+                real:  1755960.4 i/s
+               naive:       46.5 i/s - 37745.64x slower
+```
+
+In my machine, the naive implementation is about **37,745 times slower** than the binary heap one. That's a pretty big difference.
+
+### Wrapping up
+
+The priority queue is a very useful data structure, that has a number of applications, from [thread scheduling](http://en.wikipedia.org/wiki/Scheduling_%28computing%29)
+to [graph](http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) [searching](http://en.wikipedia.org/wiki/Prim%27s_algorithm) algorithms.  
+We can have a fully working (and with a quite good performance) priority queue with less than 50 lines of Ruby. And even if you are
+working with another language, that has a priority queue implementation in its standard library, implementing your own is always a good
+exercise to understand how things work under the hood.
+
+You can see the entire solution in [this gist](https://gist.github.com/brianstorti/e20300eb2e7d62b87849).
