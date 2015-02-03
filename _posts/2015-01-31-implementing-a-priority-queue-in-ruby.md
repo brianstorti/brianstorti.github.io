@@ -57,7 +57,7 @@ It includes the `Comparable` module and implements `<=>`, so we can compare two 
 ### The naive implementation
 
 Let's start with a very simple (and naive) implementation of a priority queue. The idea is that, every time that we need to remove an item, we will sort
-the entire list of elements by their priority, and then we can just return the last element, that will be the one with the highest priority:
+the entire list of elements by their priority, in ascending order, and then we can just return the last element, that will be the one with the highest priority:
 
 ```ruby
 class NaivePriorityQueue
@@ -88,7 +88,7 @@ q << Element.new("baz", 2)
 p q.pop.name # => "foo"
 ```
 
-The problem with this approach is the performance, as you might have imagined. Although we can insert in constant time (`O(1)`), the removal is linear (`O(N)`), meaning that
+The problem with this approach is the performance, as you might have imagined. Although we can insert in constant time (`O(1)`), the `pop` operation is linear (`O(n)`) in the best case, meaning that
 the operation time will grow linearly and in direct proportion to the size of the `elements` list. As the size of the list doubles, the time to perform the operation also
 is expected to double.  
 We can do better.
