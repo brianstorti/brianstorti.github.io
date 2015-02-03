@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Implementing a Priority Queue in Ruby
-draft: true
 ---
 
 The other day I had to use a priority queue to solve a problem. It was a `Java` project, so I already had the `PriorityQueue` class ready to be used.
