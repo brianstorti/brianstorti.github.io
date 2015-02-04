@@ -44,9 +44,7 @@ class Element
   end
 
   def <=>(other)
-    return 1 if @priority > other.priority
-    return -1 if @priority < other.priority
-    return 0
+    @priority <=> other.priority
   end
 end
 ```
