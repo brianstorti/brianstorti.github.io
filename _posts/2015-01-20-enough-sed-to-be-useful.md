@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Enough sed to be useful
+meta: Let's learn the basics of sed, and how it can make our lives easier
 ---
 
 `sed` is a text editor that is probably already installed in your machine and can help you be more productive. It can make the boring and time consuming task

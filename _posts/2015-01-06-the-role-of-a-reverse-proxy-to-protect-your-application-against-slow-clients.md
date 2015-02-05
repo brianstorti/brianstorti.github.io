@@ -1,6 +1,7 @@
 ---
 layout: post
 title: The role of a reverse proxy to protect your application against slow clients
+meta: Protect your application against slow clients
 ---
 
 When you are running an application server that uses a forking model, slow clients can make your application simply stop handling new requests.

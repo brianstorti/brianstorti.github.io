@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Understanding Ruby's idiom&#58; array.map(&amp;:method)
+meta: Ruby has some idioms that are used pretty frequently, but not very ofter understood. Let's see how array.map(&:method) works
 ---
 
 Ruby has some idioms that are used pretty commonly, but not very often understood. `array.map(&:method_name)` is one of them.

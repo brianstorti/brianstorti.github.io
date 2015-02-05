@@ -1,5 +1,5 @@
 name: Brian Storti
-meta_description: "blog posts written by Brian Storti"
+meta_description: "Blog posts written by Brian Storti"
 
 markdown: redcarpet
 highlighter: pygments

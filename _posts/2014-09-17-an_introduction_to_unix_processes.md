@@ -1,6 +1,7 @@
 ---
 layout: post
 title: An introduction to UNIX processes
+meta: Almost every program that you execute is running in a process, and you are interacting with processes all the time. Learn how they work.
 ---
 
 Processes are a very important piece in the UNIX world. Basically, almost every program that you execute is running

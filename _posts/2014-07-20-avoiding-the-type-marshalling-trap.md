@@ -2,6 +2,7 @@
 layout: post
 title: Designing good APIs - Avoiding the type marshalling trap
 intro: Automatically serializing a model object in a data format may be tempting, as most frameworks give this functionality out of the box, but it can bring more problems than benefits.
+meta: Automatically serializing a model object in a data format may be tempting, as most frameworks give this functionality out of the box, but it can bring more problems than benefits.
 ---
 
 
