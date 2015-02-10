@@ -68,7 +68,8 @@ The expression register (`"=`) is used to deal with results of expressions. This
 in the command line. Then if you type `2+2 <enter>`, `4` will be printed. This can be used to execute all sort of expressions, even calling external commands. To give
 another example, if you type `Ctrl-r =` and then, in the command line, `system('ls') <enter>`, the output of the `ls` command will be pasted in your buffer.
 
-The search register, as you may have imagined, is where the latest text that you searched with `/` or `?` is.
+The search register, as you may have imagined, is where the latest text that you searched with `/`, `?`, `*` or `#` is. If, for example, you just searched for `/Nietzsche`, and now you want
+to replace it with something else, there is no way you are going to type "Nietzsche" again, just do `:%s/<Ctrl-r />/mustache/g` and you are good to go.
 
 
 ### Macros
