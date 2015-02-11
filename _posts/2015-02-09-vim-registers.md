@@ -4,7 +4,7 @@ title: Vim registers&#58; The basics and beyond
 meta: Vim registers&#58; The basics and beyond. Learn how to work with registers, why they are useful to avoid some annoyances and how vim macros use them to do its magic.
 ---
 
-Vim's registers are that kind of stuff that you don't think you need, until you learn about them. After that, they become essential in your workflow, 
+Vim's registers are that kind of stuff that you don't think you need until you learn about them. After that, they become essential in your workflow, 
 and it's hard to let them behind. Saying that, it's still incredible how many people use `vim` for years without knowing how to make proper use of them.
 Bear with me and you won't be one of them.
 
