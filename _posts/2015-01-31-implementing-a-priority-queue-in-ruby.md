@@ -170,7 +170,7 @@ Now we just need to call it after we add a new element:
 def <<(element)
   @elements << element
   # bubble up the element that we just added
-  bubble_up(@element.size - 1)
+  bubble_up(@elements.size - 1)
 end
 ```
 
