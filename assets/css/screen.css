@@ -701,6 +701,7 @@ margin on the iframe, cause it breaks stuff. */
     position: relative;
     margin: 0 0 0 0;
     padding: 2rem;
+    padding-bottom: 0;
     border-top: #EBF2F6 1px solid;
     font-family: 'Open Sans', sans-serif;
     font-size: 2rem;
@@ -976,7 +977,7 @@ margin on the iframe, cause it breaks stuff. */
         margin-top: 0rem;
         font-size: 2rem;
         padding-top: 2rem;
-        padding-bottom: 2rem;
+        padding-bottom: 0;
     }
 }
 

@@ -46,6 +46,16 @@ img.profile {
   font-size: 20px;
 }
 
+.social-section {
+  background: #F7FAFB;
+  text-align: center;
+  font-size: 15px;
+  padding-top: 5px;
+}
+
+.social-section a {
+  padding-right: 15px;
+}
 .draft-warning {
   color: red;
   text-align:center;
