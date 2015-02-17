@@ -56,7 +56,7 @@ $ sed -i'' -f command.sed testing-ex.txt
 The benefit is that it's just `vim`, and you probably already know the commands to edit a file. If you have a map to do some kind of editing, you are all set, just execute these commands
 in `ex` mode. What if you want to join all the lines? Just execute `%join`, as you would if you were editing a single file.
 
-> Check :help ex-cmd-index for the list fo all the ex commands available
+> Check :help ex-cmd-index for the list of all the ex commands available
 
 ### The shortcomings
 
