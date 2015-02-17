@@ -47,14 +47,13 @@ img.profile {
 }
 
 .social-section {
-  background: #F7FAFB;
   text-align: center;
   font-size: 15px;
   padding-top: 5px;
 }
 
 .social-section a {
-  padding-right: 15px;
+  padding: 10px;
 }
 .draft-warning {
   color: red;
