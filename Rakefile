@@ -15,7 +15,7 @@ task :post do
     post.puts "layout: post"
     post.puts "title: #{ENV['title']}"
     post.puts "meta: #{ENV['title']}"
-    post.puts "draft: true"
+    post.puts "draft: false"
     post.puts "---"
     post.puts ""
     post.puts "Write your post here"
