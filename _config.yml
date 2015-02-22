@@ -10,3 +10,10 @@ port: 4567
 # Details for the RSS feed generator
 url:            'www.brianstorti.com'
 author:         'Brian Storti'
+
+social:
+  linkedin: 'http://linkedin.com/in/brianstorti'
+  github: 'http://github.com/brianstorti'
+  twitter: 'http://twitter.com/brianstorti'
+  email: 'mailto:brian@brianstorti.com'
+  rss: '/feed/atom.xml'
