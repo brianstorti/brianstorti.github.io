@@ -2,7 +2,6 @@
 layout: post
 title: Understanding Bundler's setup process
 meta: Understanding Bundler's setup process
-draft: true
 ---
 
 If you work with `Ruby`, chances are that you are using [`Bundler`](http://bundler.io) quite a lot. It's the *de facto* solution for
@@ -38,7 +37,7 @@ Now anyone that gets this code can just run `bundle install` and all the depende
 
 ##### The hidden dependency
 
-Someday I decide that this `/test` route is too boring, and it should now actually returns Metallica's "The Unforgiven" lyrics. So I just go there run `gem install vagalume`,
+Someday I decide that this `/test` route is too boring, and it should now actually returns Metallica's "The Unforgiven" lyrics. So I just go there and run `gem install vagalume`
 to get a `gem` that does that, and change my code:
 
 ```ruby
@@ -58,7 +57,7 @@ As soon as someone else tries to run the app, it breaks badly, saying that it `c
 ##### What just happened here? 
 
 The problem is that, although you have a `Gemfile` where you list your dependencies, you didn't tell `Bundler` that your app should see **just** those `gems`.  
-That makes you `require 'vagalume'` checks all the `gems` that you have installed in your systems, not just the ones listed in the `Gemfile`, and that is not good.
+This `require 'vagalume'` is actually checking all the `gems` that you have installed in your systems, not just the ones listed in the `Gemfile`, and that is not good.
 
 ### Enters `bundler/setup`
 
@@ -69,7 +68,7 @@ require 'bundler/setup'
 ```
 
 You should see that the app starts to break with that same error (`cannot load such file -- vagalume (LoadError)`), even if you have `vagalume` installed. That's good,
-`bundler` is now making sure that our code sees just what it should see, that is, the `gems` listed in the `Gemfile`.
+`Bundler` is now making sure that our code sees just what it should see, that is, the `gems` listed in the `Gemfile`.
 
 
 ##### Understanding what is happening
@@ -88,7 +87,7 @@ and then [activates](https://github.com/bundler/bundler/blob/master/lib/bundler/
 ##### And that is also what happens with `bundle exec`
 This is good moment to understand what happens when we use `bundle exec` to run a command.  
 `Bundler` will simply add the value `-rbundler/setup` to the environment variable `$RUBYOPT`. [Here is where it's done](https://github.com/bundler/bundler/blob/master/lib/bundler/shared_helpers.rb#L81).  
-This will tell `ruby` to require `bundle/setup` before running any command, and that will let `bundler` do its magic to the `$LOAD_PATH`, as we just checked.
+This will tell `ruby` to require `bundle/setup` before running any command, and that will let `Bundler` do its magic to the `$LOAD_PATH`, as we just checked.
 
 ### Bundler on Rails
 
