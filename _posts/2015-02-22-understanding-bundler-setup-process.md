@@ -57,7 +57,7 @@ As soon as someone else tries to run the app, it breaks badly, saying that it `c
 ##### What just happened here? 
 
 The problem is that, although you have a `Gemfile` where you list your dependencies, you didn't tell `Bundler` that your app should see **just** those `gems`.  
-This `require 'vagalume'` is actually checking all the `gems` that you have installed in your systems, not just the ones listed in the `Gemfile`, and that is not good.
+This `require 'vagalume'` is actually checking all the `gems` that you have installed in your system, not just the ones listed in the `Gemfile`, and that is not good.
 
 ### Enters `bundler/setup`
 
@@ -85,7 +85,7 @@ and then [activates](https://github.com/bundler/bundler/blob/master/lib/bundler/
 [adding them to the `$LOAD_PATH` variable](https://github.com/bundler/bundler/blob/master/lib/bundler/runtime.rb#L39).
 
 ##### And that is also what happens with `bundle exec`
-This is good moment to understand what happens when we use `bundle exec` to run a command.  
+This is a good moment to understand what happens when we use `bundle exec` to run a command.  
 `Bundler` will simply add the value `-rbundler/setup` to the environment variable `$RUBYOPT`. [Here is where it's done](https://github.com/bundler/bundler/blob/master/lib/bundler/shared_helpers.rb#L81).  
 This will tell `ruby` to require `bundle/setup` before running any command, and that will let `Bundler` do its magic to the `$LOAD_PATH`, as we just checked.
 
@@ -115,6 +115,6 @@ end
 
 ### Wrapping up
 
-And we can see, the mechanism that makes `Bundler` work the way it does is not that complex. It's just changing the `$LOAD_PATH` (that is not to say that `Bundler` itself is not complex, it actually
+As we can see, the mechanism that makes `Bundler` work the way it does is not that complex. It's just changing the `$LOAD_PATH` (that is not to say that `Bundler` itself is not complex, it actually
 does a lot more that what I showed here). Not understanding how it works, though, could make debugging a problem much more painful.  
 It is worth to take some time to understand at least the basics that make the tools you deal with every day work. It will almost certainly save you some precious time in the future.
