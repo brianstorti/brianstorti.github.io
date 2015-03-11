@@ -183,3 +183,5 @@ $ gem repo ruby/ruby
 There are a few methods that you can override in your class to better explain how the command works. I couldn't find them documented anywhere, but you can just check the [base command class](https://github.com/rubygems/rubygems/blob/master/lib/rubygems/command.rb). 
 The methods that you can override have a comment explaining its purpose.  
 One example is the `usage` method, that I probably don't need to explain. These information are shown when someone runs `gem help <command>`. You can check `gem help install` for an example of a very well documented command.
+
+In the [RubyGems website](http://guides.rubygems.org/plugins/) you can find a list of plugins. There are certainly hundreds more out there, but this is a good list to start with and see how things are done.
