@@ -175,7 +175,7 @@ Now the `repo` command should already be available:
 ```bash
 $ gem repo ruby/ruby
 
-# the browser should be open at http://github.com/ruby/ruby
+# should open http://github.com/ruby/ruby in your browser
 ```
 
 # Extra
