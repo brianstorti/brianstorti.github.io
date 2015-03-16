@@ -185,3 +185,8 @@ The methods that you can override have a comment explaining its purpose.
 One example is the `usage` method, that I probably don't need to explain. These information are shown when someone runs `gem help <command>`. You can check `gem help install` for an example of a very well documented command.
 
 In the [RubyGems website](http://guides.rubygems.org/plugins/) you can find a list of plugins. There are certainly hundreds more out there, but this is a good list to start with and see how things are done.
+
+# Update
+
+Since people seem to be more interested in building `RubyGems` plugins than I thought, I decided to create a plugin generator. You can find it on [my github](https://github.com/brianstorti/rubygems_plugin_generator).
+It's basically an automation for the things I covered here.
