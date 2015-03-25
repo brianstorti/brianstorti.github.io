@@ -1,6 +1,6 @@
 ---
 layout: post
-title: tail -f&#58; You need to use less
+title: Stop using tail -f (mostly)
 meta: Stop using tail -f
 draft: false
 ---
@@ -68,4 +68,5 @@ content for first file
 
 It shows the content of just one file at a time. If you want to see what's happening in the second file, you need to first `Ctrl-c` to go to normal mode, then type `:n` to go to the next buffer, and then `F` again to go back to the watching mode.
 
-Depending on your needs, it might still be worth to use `less` for multiple files, but most of the time I just to with `tail` for these cases. The important thing is to know our tools and use the right one for the occasion.
+Depending on your needs, it might still be worth to use `less` for multiple files, but most of the time I just to with `tail` for these cases. The important thing is to know the tools that we have available and use the right one 
+for the job at hand.
