@@ -18,9 +18,9 @@ body {
 .post-header .blog-title {font-size:inherit;}
 
 /* Reduce font size and add line-height*/
-pre{
-  font-size: 0.75em;
-  line-height: 1.4em;
+pre {
+  font-size: 2.1rem;
+  line-height: 3.3rem;
 }
 
 /* Author styling */
