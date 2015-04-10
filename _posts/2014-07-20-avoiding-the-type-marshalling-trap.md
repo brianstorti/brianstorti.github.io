@@ -127,7 +127,7 @@ And with this code, we have a much smaller response, that does not expose our in
 ```
 
 If anything needs to be changed in the server, we just need to make sure
-that the *ProductRepresentation* is still getting the correct data in the correct fields and all of our clients will continue to work.
+that the `ProductRepresentation` is still getting the correct data in the correct fields and all of our clients will continue to work.
 
 ## Conclusion
 
