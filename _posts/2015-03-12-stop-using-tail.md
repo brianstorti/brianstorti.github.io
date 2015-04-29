@@ -70,3 +70,6 @@ It shows the content of just one file at a time. If you want to see what's happe
 
 Depending on your needs, it might still be worth to use `less` for multiple files, but most of the time I just go with `tail` for these cases. The important thing is to know the tools that we have available and use the right one 
 for the job at hand.
+
+
+>> Статья на сайте softdroid.net: <a href="http://softdroid.net/perestante-ispolzovat-f-chasto">Блог о файлах и данных: Перестаньте использовать -f (часто)</a>
