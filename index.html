@@ -25,7 +25,7 @@ title: Brian Storti
             <header class="post-header">
                 <h2 class="post-title"><a href="{{ post.url }}">{{ post.title }}</a></h2>
                 <span class="post-meta"><time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date_to_string }}</time> {{!tags prefix="on "}}</span>
-                <a style="font-size: 1.5rem"href="{{post.url}}#disqus_thread"></a>
+                <a style="font-size: 1.5rem"href="http://{{site.url}}{{post.url}}#disqus_thread"></a>
             </header>
 
             <section class="post-excerpt">
