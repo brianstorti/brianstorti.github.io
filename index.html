@@ -23,9 +23,8 @@ title: Brian Storti
       {% unless post.draft %}
         <article class="post">
             <header class="post-header">
-                <h2 class="post-title"><a href="{{ post.url }}">{{ post.title }}</a></h2>
+              <h2 class="post-title"><a href="{{ post.url }}">{{ post.title }}</a></h2>
                 <span class="post-meta"><time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date_to_string }}</time> {{!tags prefix="on "}}</span>
-                <a style="font-size: 1.5rem"href="http://{{site.url}}{{post.url}}#disqus_thread"></a>
             </header>
 
             <section class="post-excerpt">
@@ -41,15 +40,3 @@ title: Brian Storti
       {% endunless %}
     {% endfor %}
 </main>
-
-<script type="text/javascript">
-/* * * Just replace ExampleShortname with your shortname  * * */
-var disqus_shortname = 'brianstorti'; // required: replace example with your forum shortname
-/* * * Don't make any change for bellow lines * * */
-(function () {
-var s = document.createElement('script'); s.async = true;
-s.type = 'text/javascript';
-s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-}());
-</script>
