@@ -19,13 +19,13 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@brianstorti" />
     <meta name="twitter:creator" content="@brianstorti" />
-    <meta name="twitter:title" content="{{page.title}}" />
-    <meta name="twitter:image" content="http://{{site.url}}/assets/images/profile-small.png" />
+    <meta name="og:title" content="{{page.title}}" />
+    <meta name="og:image" content="http://{{site.url}}/assets/images/profile-circle.png" />
 
     {% if page.excerpt %}
-    <meta name="twitter:description" content="{{page.excerpt}}" />
+    <meta name="og:description" content="{{page.excerpt}}" />
     {% else %}
-    <meta name="twitter:description" content="{{site.meta_description}}" />
+    <meta name="og:description" content="{{site.meta_description}}" />
     {% endif %}
 
     <link rel="stylesheet" type="text/css" href="/assets/css/master.min.css" />
