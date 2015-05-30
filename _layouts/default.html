@@ -17,10 +17,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@{{site.social.twitter}}" />
+    <meta name="twitter:site" content="@brianstorti" />
+    <meta name="twitter:creator" content="@brianstorti" />
     <meta name="twitter:title" content="{{page.title}}" />
     <meta name="twitter:image" content="http://{{site.url}}/assets/images/profile-small.png" />
-    <meta name="twitter:description" content="{{post.excerpt}}" />
+
+    {% if page.excerpt %}
+    <meta name="twitter:description" content="{{page.excerpt}}" />
+    {% else %}
+    <meta name="twitter:description" content="{{site.meta_description}}" />
+    {% endif %}
 
     <link rel="stylesheet" type="text/css" href="/assets/css/master.min.css" />
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
