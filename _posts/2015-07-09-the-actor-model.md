@@ -22,7 +22,7 @@ An actor is the primitive unit of computation. It's the *thing* that receives a 
 
 The idea is very similar to what we have in object-oriented languages: An object receives a message (a method call) and do something depending
 on which message it receives (which method we are calling).  
-The main difference is that actors and completely isolated from each other and they will never share memory. It's also worth noting
+The main difference is that actors are completely isolated from each other and they will never share memory. It's also worth noting
 that an actor can maintain a private state that can never be changed directly by another actor.
 
 ##### One ant is no ant
