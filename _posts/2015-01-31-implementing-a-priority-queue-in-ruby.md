@@ -228,7 +228,7 @@ def bubble_down(index)
   right_element = @elements[child_index + 1]
   child_index += 1 if not_the_last_element && right_element > left_element
 
-  # there is not need to continue if the parent element if already bigger
+  # there is no need to continue if the parent element is already bigger
   # then its children
   return if @elements[index] >= @elements[child_index]
 
