@@ -22,6 +22,8 @@ get a response.
 
 This `connection` that our plugs will be dealing with all the time is a simple [`Elixir` struct](http://elixir-lang.org/getting-started/structs.html), called `%Plug.Conn{}`, which is [very well documented](http://hexdocs.pm/plug/Plug.Conn.html).
 
+<img src="/assets/images/plug.png">
+
 ### The two types of Plugs
 
 There are two types of `Plug`s we can have: Function plugs and module plugs.  
