@@ -7,13 +7,13 @@ draft: false
 
 In the `Elixir` world, [`Plug`](https://github.com/elixir-lang/plug) is the specification that enables different frameworks to talk to different web servers in the `Erlang` VM.
 If you are familiar with `Ruby`, `Plug` tries to solve the same problem that `Rack` does, just with a different approach.  
-Understanding the basics of how `Plug` works will make it easier to get up to speed with `Phoenix`, and probably any other web framework that
+Understanding the basics of how `Plug` works will make it easier to get up to speed with `Phoenix`, and probably any other web framework
 that is created for `Elixir`.
 
 ### The role of a plug
 
 You can think of a `Plug` as a *piece of code* that receives a data structure, does some sort of transformation, and returns
-this same data structure, slightly modified. This data structure that a `Plug` receives and returns is called a `connection`,
+this same data structure, slightly modified. This data structure that a `Plug` receives and returns is usually called `connection`,
 and represents everything that there is to know about a request.  
 
 As plugs always receive and return a `connection`, they can be easily composable, forming what is called a *Plug pipeline*. Actually,
@@ -26,7 +26,7 @@ This `connection` that our plugs will be dealing with all the time is a simple [
 
 There are two types of `Plug`s we can have: Function plugs and module plugs.  
 
-A **function plug** is any function that receives a `connection` (that is a `%Plug.Conn{}`) and an `options`, and returns a `connection`. Here is a simple example of a valid `Plug`:
+A **function plug** is any function that receives a `connection` (that is a `%Plug.Conn{}`) and a set of options, and returns a `connection`. Here is a simple example of a valid `Plug`:
 
 ```elixir
 def my_plug(conn, opts) do
@@ -34,7 +34,7 @@ def my_plug(conn, opts) do
 end
 ```
 
-The **module plug** is any module that implements two function: `init/1` and `call/2`, like this:
+A **module plug** is any module that implements two function: `init/1` and `call/2`, like this:
 
 ```elixir
 module MyPlug do
@@ -63,7 +63,7 @@ First, create a project with `mix`:
 $ mix new learning_plug
 ```
 
-Then `cd` into the project directory and edit `mix.exs` adding `Plug` and `Cowboy` (the web server) as dependencies:
+Then `cd` into the project's directory and edit `mix.exs` adding `Plug` and `Cowboy` (the web server) as dependencies:
 
 ```elixir
 defp deps do
@@ -124,7 +124,7 @@ the web server.
 
 ### Pipelines, because one ant is no ant
 
-`Plug` gets more interesting when you start composing multiple plugs together, each one doing a small task and handing a modified `connection` to the next one.  
+`Plug` gets more interesting when you start composing multiple plugs together, each one doing a small task and handing a modified `connection` to the next.  
 `Phoenix`, the web framework, uses these pipelines in a clever way. By default, if we are handling a normal browser request, we have a pipeline like this:
 
 ```elixir
@@ -153,7 +153,7 @@ Here's an example of how it works:
 defmodule MyPipeline do
   # We use Plug.Builder to have access to the plug/2 macro.
   # This macro can receive a function or a module plug and an
-  # optional parameter, that will be passed unchanged to the 
+  # optional parameter that will be passed unchanged to the 
   # given plug.
   use Plug.Builder
 
