@@ -5,7 +5,7 @@ meta: Ruby has some idioms that are used pretty frequently, but not very ofter u
 ---
 
 Ruby has some idioms that are used pretty commonly, but not very often understood. `array.map(&:method_name)` is one of them.
-We can see it being used everywhere to call a method on every `array` element, but why this works? What's really happening under the hood?
+We can see it being used everywhere to call a method on every `array` element, but why does this work? What's really happening under the hood?
 
 ## In case you don't know Ruby's `map`
 
