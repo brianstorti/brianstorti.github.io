@@ -349,6 +349,7 @@ margin on the iframe, cause it breaks stuff. */
 
 .image-description {
   text-align: center;
+  font-style: italic;
 }
 
 /* ==========================================================================

@@ -1,7 +1,12 @@
 name: Brian Storti
 meta_description: "Brian Storti works at ThoughtWorks, and here he writes about Ruby, Vim, UNIX and other topics related to software development."
 
-markdown: redcarpet
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  hard_wrap: false
+
 highlighter: rouge
 logo: false
 permalink: /:title

@@ -100,7 +100,7 @@ last level of the tree.
 The other thing that distinguishes a binary heap is that it complies with the **heap property**, meaning that all the nodes are greater (or equal) than their children.
 <img src="/assets/images/heap.svg">
 <div class="image-description">
-*Example of a binary heap. Notice that it's a fully balanced binary tree, where all the nodes are greater than their children*
+Example of a binary heap. Notice that it's a fully balanced binary tree, where all the nodes are greater than their children
 </div>
 
 One thing that is very interesting about binary heaps is that they can be represented as a simple array. There is no need for links or any complex data structure, just a

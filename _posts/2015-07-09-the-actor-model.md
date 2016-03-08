@@ -41,8 +41,9 @@ where these messages are stored.
 
 <img src="/assets/images/actors.png">
 <div class="image-description">
-*Actors communicate with each other by sending asynchronous messages. Those messages are stored in other actors' mailboxes until they're processed.*
+  Actors communicate with each other by sending asynchronous messages. Those messages are stored in other actors' mailboxes until they're processed.
 </div>
+<hr />
 
 ##### What actors do
 
