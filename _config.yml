@@ -9,7 +9,7 @@ kramdown:
 
 highlighter: rouge
 logo: false
-permalink: /:title
+permalink: /:title/
 port: 4567
 
 # Details for the RSS feed generator
