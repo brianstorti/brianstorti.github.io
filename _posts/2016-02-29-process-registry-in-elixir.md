@@ -2,14 +2,14 @@
 layout: post
 title: Process registry in Elixir&#58; a practical example
 meta: Process registry in Elixir
-draft: true
+draft: false
 ---
 
 Processes in `Elixir` (and `Erlang`, for that matter) are identified with a unique process id, the `pid`.  
 That's what we use to interact with them. We send a message to a `pid` and the VM takes care of delivering it to the
 correct process. Sometimes, though, relying on the `pid` of a process can be problematic.  
-Let's create a simple application to see what issues we can have and what are some ways to solve them.
 
+Let's create a simple application to see what issues we can have and what are some ways to solve them.
 
 #### Starting with no registry at all
 
