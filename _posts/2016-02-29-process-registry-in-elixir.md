@@ -634,3 +634,6 @@ We covered a lot of ground. The main takeaways are:
 That's not all, though. If you need global registration across all the nodes in a cluster, some other things should be considered as well.
 `Erlang` has a [`global`](http://erlang.org/doc/man/global.html) module for global registration, [`pg2`](http://erlang.org/doc/man/pg2.html) for process groups, 
 and even [`gproc`](https://github.com/uwiger/gproc), that we used in our examples, can help with that.
+
+If this post piqued your interest, you should definitely check out [Elixir in Action](https://www.manning.com/books/elixir-in-action), by [Saša Jurić](https://github.com/sasa1977).
+In this [repository](https://github.com/brianstorti/elixir-registry-example-chat-app) you can find all the code we wrote in this example.
