@@ -2,7 +2,7 @@
 layout: post
 title: Speaking Rabbit&#58; A look into AMQP's frame structure
 meta: Speaking Rabbit&#58; A look into AMQP's frame structure
-draft: true
+draft: false
 ---
 
 `RabbitMQ` supports several different messaging protocols, but there is no doubt that `AMQP` (0-9-1) is the one most commonly used (and what `RabbitMQ`
