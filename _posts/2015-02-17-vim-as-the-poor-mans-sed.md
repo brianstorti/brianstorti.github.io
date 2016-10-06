@@ -33,7 +33,7 @@ The same way, you could just pipe the result of an `echo` to vim:
 ```bash
 # Note that, in vim, "|" is used to execute multiple commands at once:
 
-$ echo "%s/foo/new-value | w" | vim -e testing-ex.txt
+$ echo "%s/foo/new-value/ | w" | vim -e testing-ex.txt
 ```
 
 Or we could just move this script to its own file, and then execute the command as:
