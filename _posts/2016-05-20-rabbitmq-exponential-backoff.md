@@ -1,11 +1,11 @@
 ---
 layout: post
-title: RabbitMQ Exponential backoff that works
-meta: RabbitMQ Exponential backoff that works
-draft: true
+title: Exponential Backoff in RabbitMQ
+meta: Exponential Backoff in RabbitMQ
+draft: false
 ---
 
-`RabbitMQ` is a core piece of our event-driven architecture at AlphaSights. It makes our services decoupled from each other and extremely easy for a new application to 
+`RabbitMQ` is a core piece of our event-driven architecture at [AlphaSights](http://engineering.alphasights.com). It makes our services decoupled from each other and extremely easy for a new application to 
 start consuming the events it needs.
 
 Sometimes, though, things go wrong and consumers can't process a message. Usually there are two reasons for that: Either we introduced a bug that is making our worker fail or
