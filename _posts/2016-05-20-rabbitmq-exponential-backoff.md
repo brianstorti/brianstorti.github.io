@@ -16,7 +16,7 @@ this worker depends on another service that is not available at the moment.
 There are normally three ways to handle failures in `RabbitMQ`: Discarding the message, requeuing it, or sending it to a [dead-letter exchange](https://www.rabbitmq.com/dlx.html).  
 Assuming all the messages we receive are important, we can't just discard them, so we have two options left.
 
-#### The problem in requeueing
+#### The problem in requeuing
 
 This was our initial approach, every time a message fails, we just requeue it so we can try to process it again.  
 Although this can be a valid solution for simple scenarios, in our case it caused more problems than it solved.

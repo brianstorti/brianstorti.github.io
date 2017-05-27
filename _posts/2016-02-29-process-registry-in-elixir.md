@@ -231,7 +231,7 @@ defmodule Chat.Supervisor do
       worker(Chat.Server, [])
     ]
 
-    # We also changed the `strategty` to `simple_one_for_one`.
+    # We also changed the `strategy` to `simple_one_for_one`.
     # With this strategy, we define just a "template" for a child,
     # no process is started during the Supervisor initialization, just
     # when we call `start_child/2`

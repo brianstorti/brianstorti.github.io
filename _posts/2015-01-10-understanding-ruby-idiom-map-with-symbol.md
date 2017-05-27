@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Understanding Ruby's idiom&#58; array.map(&amp;:method)
-meta: Ruby has some idioms that are used pretty frequently, but not very ofter understood. Let's see how array.map(&:method) works
+meta: Ruby has some idioms that are used pretty frequently, but not very often understood. Let's see how array.map(&:method) works
 ---
 
 Ruby has some idioms that are used pretty commonly, but not very often understood. `array.map(&:method_name)` is one of them.
@@ -122,7 +122,7 @@ my_map(["foo", "bar"], &MySymbol.new("upcase"))
 
 ## Summarizing
 
-* Ruby instanciates a `MySymbol` object;
+* Ruby instantiates a `MySymbol` object;
 * Ruby checks that there is a `&` and calls `to_proc` on this object;
 * `MySymbol#to_proc` returns a `Proc` object, that expects a parameter (`element`) and calls a method on it (`upcase`);
 * `my_map` iterates over the received list (`['foo', 'bar']`) and calls the received `Proc` on each element, passing it as a parameter (`block.call(element)`);

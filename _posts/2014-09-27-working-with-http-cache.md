@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Working with HTTP cache
-meta: The fastest network request is a nequest not peformed. Let's see how we can take advantage of the builtin cache capabilities of HTTP
+meta: The fastest network request is a request not performed. Let's see how we can take advantage of the builtin cache capabilities of HTTP
 ---
 
 The fastest network request is a request not performed. That's the job a HTTP cache: avoid unnecessary work. By understanding
@@ -245,7 +245,7 @@ use Rack::Cache
 get '/' do
   sleep 5
 
-  # add a Cache-Controler header, setting the max-age to 10 seconds
+  # add a Cache-Controller header, setting the max-age to 10 seconds
   cache_control :public, max_age: 10
   "the resource representation"
 end
@@ -297,7 +297,7 @@ get '/' do
 
   cache_control :public, max_age: 10
   # we add the Etag header with a MD5 hash of
-  # the represenation
+  # the representation
   etag Digest::MD5.hexdigest(representation)
 
   representation
