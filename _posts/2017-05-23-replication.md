@@ -1,18 +1,19 @@
 ---
 layout: post
-title: Database Replication, a bit of theory
+title: Database Replication Theory, a primer
 meta: replication
 draft: true
 ---
 
-Let me start with some background. AlphaSights has offices in North America,
-Europe and Asia and is rapidly expanding. People working in these 3 continents
-rely heavily on the tools that we build to do their job, so any performance
-issue has a big impact in their work. As the number of people using our systems
-increased our database started to feel the pressure. Initially we could just
-keep increasing our database server capacity, getting a more powerful machine,
-adding more RAM, and keep scaling vertically, but there is one problem that we
-cannot solve with more money, unfortunately: The speed of light.
+Let me start with some background.
+[AlphaSights](https://engineering.alphasights.com/) has offices in North
+America, Europe and Asia and is rapidly expanding. People working in these 3
+continents rely heavily on the tools that we build to do their job, so any
+performance issue has a big impact in their work. As the number of people using
+our systems increased our database started to feel the pressure. Initially we
+could just keep increasing our database server capacity, getting a more powerful
+machine, adding more RAM, and keep scaling vertically, but there is one problem
+that we cannot solve, unfortunately: The limit of the speed of light.
 
 No matter how quickly we can _execute_ a query, if the database is in North
 America, the data still needs to travel all the way to Asia before people in
@@ -25,18 +26,15 @@ can save this travel time. Easy, right? Well...
 #### Before we start
 
 Before we start I just want to clarify a couple of things. I am by no means a
-database/replication/Postgres expert, but in the process of researching what are
-our options to solve the problem described above I learned a thing or two, and
-that's what I want to share in this article. This is not supposed to be an
-extensive resource to learn everything there is to know about replication, but
-hopefully it's a good starting point that you can use in your own journey. In
-the end of this article I will link to some great resources what will be helpful
-if you decide to dig deeper.
+replication expert, but in the process of researching what are our options to
+solve the problem described above I learned a thing or two, and that's what I
+want to share here. This is not supposed to be an extensive resource to learn
+everything there is to know about replication, but hopefully it's a good
+starting point that you can use in your own journey. In the end of this article
+I will link to some great resources what will be helpful if you decide to dig
+deeper.
 
-Although most of the concepts explained here are pretty generic, some
-things are specific to Postgres, as that is the database we use.
-
-Sounds good? Cool.
+Sounds good? Cool, grab a cup of coffee and let's have fun.
 
 #### First things first, the What and the Why
 
@@ -162,7 +160,7 @@ though we sent a confirmation to the client.
 
 <img src="/assets/images/replication/async_failure.png">
 
-You may be asking ourself
+You may be asking yourself
 
 > "Jezz, but what are the chances of a failure happening right at THAT moment?!"
 
@@ -234,7 +232,7 @@ to analyze if that's really a problem for you.
 
 Another problem is that you will need to pay the latency price on writes.
 Remember our colleagues in Asia? Well, when they want to update some data, that
-query will still need to travel the globe before they get a response.
+query will still needs to travel the globe before they get a response.
 
 Lastly, although this is not really a problem just for single leader
 replication, you need to think about what will happen when the leader node dies.
@@ -244,7 +242,7 @@ leader (i.e.  promoting one of the replicas to a leader status)? Is this
 election process automated or will it need someone to tell the system who is the
 new king in town?
 
-At first glance if seems like the best approach is to just have an automatic
+At first glance it seems like the best approach is to just have an automatic
 failover strategy, that will elect a new leader and everything will keep working
 wonderfully. That, unfortunately, is easier said than done.
 
@@ -267,7 +265,7 @@ don't give it enough time you might start a failover process that was not
 necessary. So that is challenge number one.
 
 Challenge number two: You need to decide who is the new leader. You have all
-these followers, living in an anarchy, and they need to somehow agree on how
+these followers, living in an anarchy, and they need to somehow agree on who
 should be the new leader. For example, one relatively simple (at least
 conceptually) approach it to have a predefined successor node, that will assume
 the leader position when the original leader dies. Or you can choose the node
@@ -288,8 +286,8 @@ redirect them to the appropriate node.
 
 If you are using asynchronous replication, the new leader might not have all the
 data from the previous leader. In that case, if the old leader resurrects (maybe
-it was just a network glitch) and the new leader received conflicting updates in
-the meantime, how do we handle these conflicts?  
+it was just a network glitch or a server restart) and the new leader received
+conflicting updates in the meantime, how do we handle these conflicts?  
 One common approach is to just discard these conflicts (using a last-write-win
 approach), but that can also be dangerous (take this [Github
 issue](https://github.com/blog/1261-github-availability-this-week) (from 2012)
@@ -350,6 +348,15 @@ clients write to two different leaders that are not yet in sync, both writes
 will succeed in their respective leaders, but we will have problems when we try
 to replicate that data. Let's talk a bit more about these conflicts.
 
+> Here we are assuming that these leaders replicate data asynchronously, that's
+> why we can have conflicts. You could, in theory, have multi leader synchronous
+> replication, but that doesn't really make a lot of sense, as you lose the main
+> benefit of having leaders accepting writes independently, and might just use
+> single leader replication instead. There are some projects, though, like
+> [PgCluster](https://wiki.postgresql.org/wiki/PgCluster), that implement multi
+> master synchronous replication, but they are mostly abandoned, and I will not
+> talk about this type of replication here.
+
 ##### Dealing with conflicts
 
 The easiest way to handle conflicts is to not have conflicts in the first place.
@@ -360,19 +367,25 @@ Let's use as an example an application to manage the projects in your company.
 You can ensure that all the updates in the projects related to the American
 office are sent to the leader in North America, and all the European projects
 are written to the leader in Europe. This way you can avoid conflicts, as the
-writes to the same projects will be sent to the same leader, while still using
-the leader that is closer to the client.
+writes to the same projects will be sent to the same leader. Also, if we assume
+that the clients updating these projects will probably be in their respective
+offices (e.g. people in the New York office will update the American projects,
+that will be send to the leader in North America), we can ensure that they are
+accessing a database geographically close to them.
 
 Of course, this is a very biased example, and not every application can
 "partition" its data in such an easy way, but it's something to keep in mind.
-
 If that's not your case, we need another way to make sure we end up in a
-consistent state. We cannot just let each node just apply the writes in the
-order that they see them, because a node `A` may first receive an update setting
-`foo=1` and then another update setting `foo=2`, while node `B` receive these
-updates in the opposite order (remember, these messages are going through the
-network and can arrive out of order), and if we just blindly apply them we would
-end up with `foo=2` on node `A` and `foo=1` on node `B`. Not good.
+consistent state. 
+
+We cannot let each node just apply the writes in the order that they see them,
+because a node `A` may first receive an update setting `foo=1` and then another
+update setting `foo=2`, while node `B` receive these updates in the opposite
+order (remember, these messages are going through the network and can arrive out
+of order), and if we just blindly apply them we would end up with `foo=2` on
+node `A` and `foo=1` on node `B`. Not good.
+
+<img src="/assets/images/replication/multi-leader-conflict.png">
 
 One common solution is to attach some sort of timestamp to each write, and then
 just apply the write with the highest value. This is called LWW (last write
@@ -381,8 +394,9 @@ that's still very widely used.
 
 > Just be aware that physical clocks [are not
 > reliable](http://books.cs.luc.edu/distributedsystems/clocks.html), and when
-> using timestamps you will probably need some sort to clock synchronization,
-> like [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol).
+> using timestamps you will probably need at least some sort to clock
+> synchronization, like
+> [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol).
 
 Another solution is to record these conflicts, and then write application code
 to allow the user to manually resolve them later. This may not be feasible in some
@@ -538,10 +552,10 @@ this update, or we can have another process that is responsible just for finding
 differences in the data and fixing them.
 
 Making the client fix it is conceptually simple, when the client reads data from
-several nodes and detects that one of them are stale, it sends a write request
+several nodes and detects that one of them is stale, it sends a write request
 with the correct value. This is usually called _read repair_.
 
-The other approach, having a background process fixing the data, really depends
+The other solution, having a background process fixing the data, really depends
 on the database implementation, and there are several ways to do that, depending
 on how the data is stored. For example, `DynamoDB` uses an anti-entropy using
 Merkle trees.
@@ -557,6 +571,8 @@ just one successful response to consider a value written, and also read from
 just one replica. From there we can expand the problem to more realistic
 scenarios.
 
+<img src="/assets/images/replication/leaderless-write-one-replica.png">
+
 As there is no synchronization between these replicas, we will read stale values
 every time we send a read request to a node other than the only one that
 succeeded.
@@ -566,12 +582,13 @@ and also read from 2. Well, we will have the exact same problem. If we write to
 nodes `A` and `B` and read from nodes `C` and `D`, we will always get stale
 data. 
 
-What we need is some way to guarantee that at least one of nodes that we are
+What we need is some way to guarantee that at least one of the nodes that we are
 reading from is a node that received the write, and that's what quorums are.
 
 For example, if we have 5 replicas and require that 3 of them accept the write,
-and also read from 3, we can be sure that _at least_ one of these replicas that
-we are reading from accepted the write and therefore has the most recent data.
+and also read from 3 replicas, we can be sure that _at least_ one of these
+replicas that we are reading from accepted the write and therefore has the most
+recent data. There's always an overlap.
 
 Most databases allow us to configure how many replicas need to accept a write (`w`)
 and how many we want to read from (`r`). A good rule of thumb is to always have
@@ -586,54 +603,223 @@ writes slower and less available, as just a single replica failure will prevent
 any write from happening, so you need to measure your specific needs and what is
 the right balance.
 
-##### Quorums and majorities 
+#### Replication lag
 
-One thing 
+In a leader-based replication, as we have seen, writes need to be sent to a
+leader, but reads can be performed by any replica. When we have applications
+that are mostly reading from the database, and writing a lot less often (which
+is the most common case), it can be tempting to add many replicas to handle
+all these read requests, creating what can be called a _read scaling
+architecture_. Not only that, but we can have many replicas geographically close
+to our clients to also improve latency.
 
-#### Eventual Consistency
+The more replicas we have, though, the harder it is to use synchronous
+replication, as the probability of one these many nodes being down when we need
+to replicate an update increases, and our availability decreases. The only
+feasible solution in this case is to use asynchronous replication, that is, we
+can still perform updates even if a node is not responding, and when this
+replica back up it should catch up with the leader.
 
-#### 2PC
+We've already discussed the benefits and challenges in using synchronous and
+asynchronous replication, so I'll not talk about that again, but assuming we are
+replicating updates asynchronously, we need to be aware of the problems we can
+have with the replication lag, or, in other words, the delay between the time an
+update is applied in the leader node and the time it's applied in a given replica.
 
-#### Dealing with conflicts
+<img src="/assets/images/replication/replication-lag.png">
 
-#### The log
+If a client reads this replica during this period, it will receive outdated
+information, because the latest update(s) were not applied yet. In other words,
+if you send the same query to 2 different server, you may get 2 different
+answers. As you may remember when we talked about the CAP theorem, this breaks
+the _consistency_ guarantee. This is just temporary, though, eventually all the
+nodes replicas will get this update, and if you stop writing new data, they will
+all end up being identical. This is what we call _eventual consistency_.
 
-#### Adding new replicas
+In theory there is no limit for how long it will take to a replica to be
+consistent with its leader (the only guarantee we have is that _eventually_ it
+will be), but in practice we usually expect this to happen fairly quickly, maybe
+in a couple of milliseconds.
 
-#### Logical and Physical replication
+Unfortunately, we cannot expect that to always be the case, and we need to plan
+for the worst. Maybe the network is slow, or the server is operating near
+capacity and is not replication the updates as fast as we'd except, and this
+replication lag can increase. Maybe it will increase a couple of seconds, maybe
+minutes. What happens then?
 
-#### Sharding
+Well, the first step is to understand the guarantees we need to provide. For
+example, is it really a problem that, when facing an issue that increases the
+lag, it will take 30 seconds for your friend to be able to see that last cat
+picture you just posted on Facebook? Probably not.
 
-#### PITR, or Point in Time Recovery
+In a lot of cases this replication lag, and eventual consistency in general,
+will not be a problem (after all, the physical world is eventually consistent),
+so let's focus on some cases where this _can_ be an issue, and see some
+alternatives to handle them.
 
-#### Streaming Replication
+##### Read-your-writes consistency
 
-#### A word about backups
+The most common problem we can have with asynchronous replicas is when a client
+sends a write to the leader, and shortly after tries to read that same value
+from a replica. If this read happens before the leader had enough time to
+replicate the update, it will look like the write didn't actually work.
+
+<img src="/assets/images/replication/read-your-writes.png">
+
+So, although it might not be a big issue if a client doesn't see other clients'
+updates right away, it's pretty bad if they don't see their own writes. This is
+what is called _read-your-writes consistency_, we want to make sure that a
+client never reads the database in a state it was before it performed a write.
+
+Let's talk about some techniques that can be used to achieve this type of
+consistency.
+
+A simple solution is to actually read from the leader when we are trying to read
+something that the user might have changed. For example, if we are implementing
+something like Twitter, we can read other people's timeline from a replica (as
+the user will not be able to write/change it), but when viewing their own
+timeline, read from the leader, to ensure we don't miss any update.
+
+Now, if there are lots of things that can be changed by every user, that doesn't
+really make a lot of sense, as we would end up sending all the reads to the
+leader, so in this case we need a different strategy.
+
+Another technique that can be used is to track the timestamp of the last write
+request and for the next, say, 10 seconds, send all the read requests to the
+leader. Then you need to find the right balance here, because if there is a new
+write every 9 seconds you will also end up sending all of your reads to the
+leader. Also, you will probably want to monitor the replication lag to make sure
+replicas that fall more than 10 seconds behind stop receiving requests until
+they catch up.
+
+Then there are also more sophisticated ways to handle this, that requires more
+collaboration of your database. For example, [Berkeley DB](http://www.oracle.com/technetwork/database/database-technologies/berkeleydb/overview/index.html)
+will generate a _commit token_ when you write something to the leader. The
+client can then send this token to the replica it's trying to read from, and
+with this token the replica knows if it's current enough (i.e. if it has already
+applied that commit). If so, it can just serve that read without any problem,
+otherwise it can either block until it receives that update, and then answer the
+request, or it can just reject it, and the client can try another replica.
+
+As always, there are no right answers here, and I am sure there lots of other
+techniques that can be used to work around this problem, but you need to know
+how your system will behave when facing a large replication lag and if
+_read-your-writes_ is a guarantee you really need to provide. There are
+databases and replication tools that will simply ignore this issue, so you need
+to be prepared when you receive that weird and impossible to reproduce bug
+report.
+
+##### Monotonic Reads
+
+This is a fancy name to say that we don't want clients to see time moving
+backwards: If I read from a replica that has already applied commits 1, 2 and 3,
+I don't want my next read to go to a replica that only has commits 1 and 2.
+
+Imagine, for example, that I'm reading the comments of a blog post. When I
+refresh the page to check if there's any new comment, what actually happens is
+that the last comment disappears, as if it was deleted. Then I refresh again,
+and it's back there. Very confusing.
+
+<img src="/assets/images/replication/monotonic-reads.png">
+
+Although you can still see stale data, what monotonic read guarantees is that if
+you make several reads to a given value, all the successive reads will be at
+least as recent as the previous one. Time never moves backwards.
+
+The simplest way to achieve monotonic reads is to make each client send their
+read requests to the same replica. Different clients can still read from
+different replicas, but having a given client always (or at least for the
+duration of a session) connected to the same replica will ensure it never reads
+data from the past.
+
+Another alternative is to have something similar to the commit token that we
+talked about in the _read-your-writes_ discussion. Every time that a client
+reads from a replica it receives its latest commit token, that is then sent in
+the next read, that can go to another replica. This replica can then check this
+commit token to know if it's eligible to answer that query (i.e. if its own
+commit token is "greater" than the one received). If that's not the case, it can
+wait until more data is replicated before responding, or it can return an error.
 
 #### Delayed Replicas
 
-#### Some tools
+We talked about replication lags, some of the problems that we can have when
+this lag increases too much, and how to deal with these problems. Now, sometimes
+we may actually _want_ this lag. In other words, we want a _delayed replica_.
 
-#### Working with third-party providers (namely Heroku and RDS)
+We will not really read (or write) from this replica, it will just sit there,
+lagging behind the leader, maybe by a couple of hours, while no one is using it.
+So, why would anyone want that?
+
+Well, imagine that you release a new version of your application, and a bug
+introduced in this release starts deleting all the records from your `orders`
+table. You notice the issue and rollback this release, but the deleted data is
+gone. Your replicas are not very useful at this point, as all these deletions
+were already replicated and you have the same messy database replicated.  
+You could start restore a backup, but if you have a big database you probably
+won't have a backup running every couple of minutes, and the process to restore
+a database usually takes a lot of time.
+
+That's were a delayed replica can save the day. Let's say you have a replica
+that is always 1 hour behind the leader. As long as you noticed the issue in
+less than 1 hour (as you probably will when your orders evaporate) you can just
+start using this replica and, although you will still probably lose some data,
+the damage could be a lot worse.
+
+A replica will almost never replace a proper backup, but in some cases having a
+delayed replica can be extremely helpful (as the developer that shipped that bug
+can confirm).
+
+#### Replication under the hood
+
+We talked about several different replication setups, consistency guarantees,
+benefits and disadvantages of each approach. Now let's go one level below, and
+see how one node can actually send its data to another, after all, replication
+is all about copying byte from one place to another, right?
+
+When we are talking about databases, there are usually two options available:
+_Physical_ and _Logical_ replication.
+
+##### Logical Replication
+
+Logical replication (or _statement-base replication_, as it's sometimes called),
+is the simplest one. It basically means that one node will send the same
+statements it received to its replicas. For example, if you send an `UPDATE
+foo=bar` statement to the leader, it will execute this update and send the same
+instruction to its replicas, that will then also execute the update, hopefully
+getting to the same end result.
+
+Although this is a very simple solution, there are some things to be considered
+here. The main problem is that not every statement is deterministic, meaning
+that each time you execute them, you can get a different result. Think about
+functions like `CURRENT_TIME()` or `RANDOM()`
+
+##### Physical Replication
+
+Logical vs physical
+
+Cannot use multi master with physical replication
 
 #### Diving deeper
 
-I hope this brief introduction to some of the theories and problems that we
-need to be aware of when replicating a database made you curious to learn more.
-If that's the case, here's the list of resources that I used (and am still
-using) in my own studies and can blindly recommend:
+I hope this (not-so-brief) introduction to the different ideas and concepts
+behind replication made you curious to learn more. If that's the case, here's
+the list of resources that I used (and am still using) in my own studies and can
+recommend:
 
-Designing data intensive (chapter 5)
-distributed systems for fun and profit (chapters 4 and 5)
-Postgres replication (book)
-Understanding Replication (paper)
-The Dangers of Replication and a Solution (paper)
-
-cap paper
-cap critique paper
-cap 12 years later
-
-
-dynamo paper
-
-- other things to mention: slit brain, quorums, tie breaker node
+* [(Book) Designing Data-Intensive Applications](http://shop.oreilly.com/product/0636920032175.do) (Chapter 5)
+* [(Book) Distributed Systems For Fun and Profit](http://book.mixu.net/distsys/single-page.html) (Chapters 4 and 5)
+* [(Book) PostgreSQL Replication](https://www.packtpub.com/big-data-and-business-intelligence/postgresql-replication-second-edition)
+* [(Book) PostgreSQL 9 High Availability Cookbook](https://www.packtpub.com/big-data-and-business-intelligence/postgresql-9-high-availability-cookbook) (Chapter 6)
+* [(Paper) Dynamo: Amazon’s Highly Available Key-value Store](http://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf)
+* [(Paper) A Critique of the CAP Theorem](https://arxiv.org/pdf/1509.05393.pdf)
+* [(Paper) Understanding Replication in Databases and Distributed Systems](https://infoscience.epfl.ch/record/52326/files/IC_TECH_REPORT_199935.pdf)
+* [(Paper) Replicated Data Consistency Explained Through Baseball](https://www.microsoft.com/en-us/research/publication/replicated-data-consistency-explained-through-baseball/)
+* [(Paper)The Dangers of Replication and a Solution](https://www.cs.cornell.edu/courses/cs614/2003sp/papers/GHO96.pdf)
+* [(Paper) Brewer's Conjecture and the Feasibility of Consistent Available Partition-Tolerant Web Services](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.20.1495)
+* [(Research report) Notes on Distributed Databases](http://domino.research.ibm.com/library/cyberdig.nsf/papers/A776EC17FC2FCE73852579F100578964/$File/RJ2571.pdf) (Chapter 1)
+* [(Article) CAP Twelve Years Later: How the "Rules" Have Changed](https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed)
+* [(Article) Eventually Consistent - Revisited](http://www.allthingsdistributed.com/2008/12/eventually_consistent.html)
+* [(Article) Clocks and Synchronization](http://books.cs.luc.edu/distributedsystems/clocks.html)
+* [(Article) Consistency and availability in Amazon's Dynamo](http://the-paper-trail.org/blog/consistency-and-availability-in-amazons-dynamo/)
+* [(Documentation) Berkeley DB Read-Your-Writes Consistency](https://docs.oracle.com/cd/E17276_01/html/gsg_db_rep/C/rywc.html)
+* [(Lecture) Distributed Program Construction](https://www.cs.rice.edu/~druschel/comp413/lectures/replication.html)
