@@ -179,7 +179,7 @@ The `extract_name` uses `assign/3` to assign a value to a key in this connection
 is then handed to the `greet` plug, that basically reads this assigned value to create the response we want.  
 
 `Plug.Logger` is shipped with `Plug` and, as you probably guessed, is used to log our http requests. A bunch of useful plugs like this
-are available out of the box, you can find the list and descriptions in the [docs](http://hexdocs.pm/plug/extra-readme.html) ("Available Plugs" section).
+are available out of the box, you can find the list and descriptions in the [docs](https://hexdocs.pm/plug/readme.html) ("Available Plugs" section).
 
 Using this pipeline is as simple as using a single plug: 
 
