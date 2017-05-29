@@ -1,11 +1,19 @@
 ---
 layout: post
-title: Database Replication Theory, a primer
+title: A Primer on Database Replication
 meta: replication
 draft: true
 ---
 
-Let me start with some background.
+Replicating a database can make our applications faster and increase our
+tolerance to failures, but there are a lot of different options available and
+each one comes with a price tag. It's hard to make the right choice if we do not
+understand how the tools we are using work, and what are the guarantees they
+provide (or, more importantly, do _not_ provide), and that's what I want to
+explore here.
+
+#### Before we start, some background
+
 [AlphaSights](https://engineering.alphasights.com/) has offices in North
 America, Europe and Asia and is rapidly expanding. People working in these 3
 continents rely heavily on the tools that we build to do their job, so any
@@ -17,22 +25,20 @@ that we cannot solve, unfortunately: The limit of the speed of light.
 
 No matter how quickly we can _execute_ a query, if the database is in North
 America, the data still needs to travel all the way to Asia before people in
-that office can use it. Our Asian colleagues think we can do better, and so do
-we.
+that office can use it. It was clear that we had to make that data available
+somewhere closer to them, and so the quest began.
 
-So the solution is to move this data closer to them, somewhere in Asia, so we
-can save this travel time. Easy, right? Well...
+Researching all the available options and everything that is involved in a
+database replication setup can be overwhelming, there are literally decades of
+literature about the subject, and after you start digging it's hard to see the
+end.
 
-#### Before we start
-
-Before we start I just want to clarify a couple of things. I am by no means a
-replication expert, but in the process of researching what are our options to
-solve the problem described above I learned a thing or two, and that's what I
-want to share here. This is not supposed to be an extensive resource to learn
-everything there is to know about replication, but hopefully it's a good
-starting point that you can use in your own journey. In the end of this article
-I will link to some great resources what will be helpful if you decide to dig
-deeper.
+I am by no means a replication expert, but during this process  I learned a
+thing or two, and that's what I want to share here. This is not supposed to be
+an extensive resource to learn everything there is to know about replication,
+but hopefully it's a good starting point that you can use in your own journey.
+In the end of this article I will link to some great resources what will be
+helpful if you decide to learn more.
 
 Sounds good? Cool, grab a cup of coffee and let's have fun.
 
@@ -866,10 +872,9 @@ technique for each case.
 
 #### Diving deeper
 
-I hope this (not-so-brief) introduction to the different ideas and concepts
-behind replication made you curious to learn more. If that's the case, here's
-the list of resources that I used (and am still using) in my own studies and can
-recommend:
+I hope introduction to the different ideas and concepts behind replication made
+you curious to learn more. If that's the case, here's the list of resources that
+I used (and am still using) in my own studies and can recommend:
 
 * [(Book) Designing Data-Intensive Applications](http://shop.oreilly.com/product/0636920032175.do) (Chapter 5)
 * [(Book) Distributed Systems For Fun and Profit](http://book.mixu.net/distsys/single-page.html) (Chapters 4 and 5)
