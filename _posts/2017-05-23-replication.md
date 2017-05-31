@@ -715,7 +715,7 @@ databases and replication tools that will simply ignore this issue, so you need
 to be prepared when you receive that weird and impossible to reproduce bug
 report.
 
-##### Monotonic Reads
+##### Monotonic Reads Consistency
 
 This is a fancy name to say that we don't want clients to see time moving
 backwards: If I read from a replica that has already applied commits 1, 2 and 3,
@@ -745,6 +745,14 @@ the next read, that can go to another replica. This replica can then check this
 commit token to know if it's eligible to answer that query (i.e. if its own
 commit token is "greater" than the one received). If that's not the case, it can
 wait until more data is replicated before responding, or it can return an error.
+
+##### Bounded Staleness Consistency
+
+This consistency guarantee means, as the name indicates, that there should be a
+limit on how stale the data we are reading is. For example, we may want to
+guarantee that clients will not read data that is more than 3 minutes old.
+Alternatively, this staleness can be defined in terms of number of missing
+updates, or anything that is meaningful the application.
 
 #### Delayed Replicas
 
