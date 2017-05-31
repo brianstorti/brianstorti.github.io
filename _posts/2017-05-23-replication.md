@@ -876,22 +876,67 @@ I hope introduction to the different ideas and concepts behind replication made
 you curious to learn more. If that's the case, here's the list of resources that
 I used (and am still using) in my own studies and can recommend:
 
-* [(Book) Designing Data-Intensive Applications](http://shop.oreilly.com/product/0636920032175.do) (Chapter 5)
-* [(Book) Distributed Systems For Fun and Profit](http://book.mixu.net/distsys/single-page.html) (Chapters 4 and 5)
-* [(Book) PostgreSQL Replication](https://www.packtpub.com/big-data-and-business-intelligence/postgresql-replication-second-edition)
-* [(Book) PostgreSQL 9 High Availability Cookbook](https://www.packtpub.com/big-data-and-business-intelligence/postgresql-9-high-availability-cookbook) (Chapter 6)
-* [(Paper) Dynamo: Amazon’s Highly Available Key-value Store](http://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf)
-* [(Paper) Brewer's Conjecture and the Feasibility of Consistent Available Partition-Tolerant Web Services](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.20.1495)
-* [(Paper) A Critique of the CAP Theorem](https://arxiv.org/pdf/1509.05393.pdf)
-* [(Paper) Understanding Replication in Databases and Distributed Systems](https://infoscience.epfl.ch/record/52326/files/IC_TECH_REPORT_199935.pdf)
-* [(Paper) Replicated Data Consistency Explained Through Baseball](https://www.microsoft.com/en-us/research/publication/replicated-data-consistency-explained-through-baseball/)
-* [(Paper)The Dangers of Replication and a Solution](https://www.cs.cornell.edu/courses/cs614/2003sp/papers/GHO96.pdf)
-* [(Paper) How VoltDB does Transactions](https://www.voltdb.com/wp-content/uploads/2017/03/lv-technical-note-how-voltdb-does-transactions.pdf)
-* [(Research report) Notes on Distributed Databases](http://domino.research.ibm.com/library/cyberdig.nsf/papers/A776EC17FC2FCE73852579F100578964/$File/RJ2571.pdf) (Chapter 1)
-* [(Article) CAP Twelve Years Later: How the "Rules" Have Changed](https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed)
-* [(Article) Eventually Consistent - Revisited](http://www.allthingsdistributed.com/2008/12/eventually_consistent.html)
-* [(Article) Clocks and Synchronization](http://books.cs.luc.edu/distributedsystems/clocks.html)
-* [(Article) Consistency and availability in Amazon's Dynamo](http://the-paper-trail.org/blog/consistency-and-availability-in-amazons-dynamo/)
-* [(Documentation) Berkeley DB Read-Your-Writes Consistency](https://docs.oracle.com/cd/E17276_01/html/gsg_db_rep/C/rywc.html)
-* [(Documentation) VoltDB Database Replication](https://docs.voltdb.com/UsingVoltDB/ChapReplication.php)
-* [(Lecture) Distributed Program Construction](https://www.cs.rice.edu/~druschel/comp413/lectures/replication.html)
+* **[(Book) Designing Data-Intensive Applications](http://shop.oreilly.com/product/0636920032175.do)**  
+This is one of the best books I've ever read. It covers lots of different topics
+related to distributed systems, and in the 5th Chapter the author focuses on
+replication. Although it's not specific for databases, most of the topics
+covered are applicable.
+
+* **[(Book) Distributed Systems For Fun and Profit](http://book.mixu.net/distsys/single-page.html)**  
+This is another book that is not really focused only on databases, but in
+distributed systems in general, but chapters 4 and 5 are focused on replication.
+It explains in a straightforward (and fun) way a lot of important topics that
+were not covered in depth here.
+
+* **[(Book) PostgreSQL Replication](https://www.packtpub.com/big-data-and-business-intelligence/postgresql-replication-second-edition)**  
+This book is, of course, focused on `PostgreSQL`, but it also presents some
+concepts that are applicable to other RDBMS. Also, it's a good way to see how
+these ideas can be applied in practice. It explains how to setup
+synchronous/asynchronous replication, WAL shipping, and use tools that use a
+variety of techniques (e.g. `Bucardo`, using triggers and  `BDR`, using row-based
+replication that we discussed here).
+
+* **[(Paper) Understanding Replication in Databases and Distributed
+Systems](https://infoscience.epfl.ch/record/52326/files/IC_TECH_REPORT_199935.pdf)**  
+This paper compares the replication techniques discussed in the distributed
+systems and databases literatures. It first describes an abstract model and then
+examines how that applies to synchronous/asynchronous replication (that is
+called _lazy_/_eager_ replication in the paper), and in a
+single-leader/leaderless setup (that is calls _active/passive_ for distributed
+systems and _primary-copy/update- everywhere_ for databases).
+
+* **[(Paper) Dynamo: Amazon’s Highly Available Key-value Store](http://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf)**  
+Dynamo is the key value data storage created by Amazon that popularized the idea
+of leaderless databases. This is the paper that explains (at least
+superficially) how it works. It's interesting to see how they handle conflicts
+(letting the clients resolve them) and also use some techniques not explores in
+this post, like sloppy quorums (as opposed to strict quorums) and hinted
+handoff to achieve more availability. The paper is 10 years old already and I'm
+sure a few things changed, but it's an interesting read anyway.
+
+* **[(Paper) A Critique of the CAP Theorem](https://arxiv.org/pdf/1509.05393.pdf)**  
+This paper explains why the CAP theorem is not always the best tool to use when
+reasoning about distributed systems. The author explains the problems he sees
+with the CAP definitions (or lack of definitions, in some cases). For example,
+_consistency_ in CAP means a very specific kind of consistency
+(_linearizability_), but there's a whole spectrum of different consistency
+guarantees that are ignored.
+
+* **[(Paper) Replicated Data Consistency Explained Through Baseball](https://www.microsoft.com/en-us/research/publication/replicated-data-consistency-explained-through-baseball/)**  
+This paper describes six consistency guarantees and tries to define how each
+participant (scorekeeper, umpire, etc.) in a baseball game would require a
+different guarantee. What I think that is interesting in this paper is that it
+shows that every consistency model can be useful depending on the situation,
+sometimes it's fine to live with eventual consistency, and sometimes you need
+stronger guarantees (e.g. read-your-writes, described above).
+
+* **[(Paper)The Dangers of Replication and a Solution](https://www.cs.cornell.edu/courses/cs614/2003sp/papers/GHO96.pdf)**
+* **[(Paper) How VoltDB does Transactions](https://www.voltdb.com/wp-content/uploads/2017/03/lv-technical-note-how-voltdb-does-transactions.pdf)**
+* **[(Research report) Notes on Distributed Databases](http://domino.research.ibm.com/library/cyberdig.nsf/papers/A776EC17FC2FCE73852579F100578964/$File/RJ2571.pdf) (Chapter 1)**
+* **[(Article) CAP Twelve Years Later: How the "Rules" Have Changed](https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed)**
+* **[(Article) Eventually Consistent - Revisited](http://www.allthingsdistributed.com/2008/12/eventually_consistent.html)**
+* **[(Article) Clocks and Synchronization](http://books.cs.luc.edu/distributedsystems/clocks.html)**
+* **[(Article) Consistency and availability in Amazon's Dynamo](http://the-paper-trail.org/blog/consistency-and-availability-in-amazons-dynamo/)**
+* **[(Documentation) Berkeley DB Read-Your-Writes Consistency](https://docs.oracle.com/cd/E17276_01/html/gsg_db_rep/C/rywc.html)**
+* **[(Documentation) VoltDB Database Replication](https://docs.voltdb.com/UsingVoltDB/ChapReplication.php)**
+* **[(Lecture) Distributed Program Construction](https://www.cs.rice.edu/~druschel/comp413/lectures/replication.html)**
