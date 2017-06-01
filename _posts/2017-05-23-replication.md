@@ -715,7 +715,7 @@ databases and replication tools that will simply ignore this issue, so you need
 to be prepared when you receive that weird and impossible to reproduce bug
 report.
 
-##### Monotonic Reads Consistency
+##### Monotonic Reads consistency
 
 This is a fancy name to say that we don't want clients to see time moving
 backwards: If I read from a replica that has already applied commits 1, 2 and 3,
@@ -746,7 +746,7 @@ commit token to know if it's eligible to answer that query (i.e. if its own
 commit token is "greater" than the one received). If that's not the case, it can
 wait until more data is replicated before responding, or it can return an error.
 
-##### Bounded Staleness Consistency
+##### Bounded Staleness consistency
 
 This consistency guarantee means, as the name indicates, that there should be a
 limit on how stale the data we are reading is. For example, we may want to
@@ -754,7 +754,7 @@ guarantee that clients will not read data that is more than 3 minutes old.
 Alternatively, this staleness can be defined in terms of number of missing
 updates, or anything that is meaningful the application.
 
-#### Delayed Replicas
+#### Delayed replicas
 
 We talked about replication lags, some of the problems that we can have when
 this lag increases too much, and how to deal with these problems. Now, sometimes
@@ -790,7 +790,7 @@ benefits and disadvantages of each approach. Now let's go one level below, and
 see how one node can actually send its data to another, after all, replication
 is all about copying bytes from one place to another, right?
 
-##### Statement-based Replication
+##### Statement-based replication
 
 Statement-based replication basically means that one node will send the same
 statements it received to its replicas. For example, if you send an `UPDATE foo
@@ -818,7 +818,7 @@ Another important requirement is that we need to make sure that all transactions
 either commit or abort on every replica, so we don't have a change being applied
 in some replicas and not in others.
 
-##### Log Shipping Replication
+##### Log Shipping replication
 
 Most databases use a [log](https://en.wikipedia.org/wiki/Write-ahead_logging)
 (an append-only data structure) to provide durability and atomicity (from the
@@ -849,7 +849,7 @@ Recovery](https://www.postgresql.org/docs/9.6/static/continuous-archiving.html).
 
 This is also known as _physical replication_.
 
-##### Row-based Replication
+##### Row-based replication
 
 Row-based, or _logical_ replication, is kind of a mix of these two techniques.
 Instead of shipping the internal log (`WAL`), it uses a different log just for
@@ -880,9 +880,10 @@ technique for each case.
 
 #### Diving deeper
 
-I hope introduction to the different ideas and concepts behind replication made
-you curious to learn more. If that's the case, here's the list of resources that
-I used (and am still using) in my own studies and can recommend:
+I hope this introduction to the different ideas and concepts behind database
+replication made you curious to learn more. If that's the case, here's the list
+of resources that I used (and am still using) in my own studies and can
+recommend:
 
 * **[(Book) Designing Data-Intensive Applications](http://shop.oreilly.com/product/0636920032175.do)**  
 This is one of the best books I've ever read. It covers lots of different topics
@@ -938,13 +939,40 @@ shows that every consistency model can be useful depending on the situation,
 sometimes it's fine to live with eventual consistency, and sometimes you need
 stronger guarantees (e.g. read-your-writes, described above).
 
-* **[(Paper)The Dangers of Replication and a Solution](https://www.cs.cornell.edu/courses/cs614/2003sp/papers/GHO96.pdf)**
-* **[(Paper) How VoltDB does Transactions](https://www.voltdb.com/wp-content/uploads/2017/03/lv-technical-note-how-voltdb-does-transactions.pdf)**
-* **[(Research report) Notes on Distributed Databases](http://domino.research.ibm.com/library/cyberdig.nsf/papers/A776EC17FC2FCE73852579F100578964/$File/RJ2571.pdf) (Chapter 1)**
-* **[(Article) CAP Twelve Years Later: How the "Rules" Have Changed](https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed)**
-* **[(Article) Eventually Consistent - Revisited](http://www.allthingsdistributed.com/2008/12/eventually_consistent.html)**
-* **[(Article) Clocks and Synchronization](http://books.cs.luc.edu/distributedsystems/clocks.html)**
-* **[(Article) Consistency and availability in Amazon's Dynamo](http://the-paper-trail.org/blog/consistency-and-availability-in-amazons-dynamo/)**
-* **[(Documentation) Berkeley DB Read-Your-Writes Consistency](https://docs.oracle.com/cd/E17276_01/html/gsg_db_rep/C/rywc.html)**
-* **[(Documentation) VoltDB Database Replication](https://docs.voltdb.com/UsingVoltDB/ChapReplication.php)**
-* **[(Lecture) Distributed Program Construction](https://www.cs.rice.edu/~druschel/comp413/lectures/replication.html)**
+* **[(Paper) How VoltDB does Transactions](https://www.voltdb.com/wp-content/uploads/2017/03/lv-technical-note-how-voltdb-does-transactions.pdf)**  
+There is a section in this paper that explains specifically how `VoltDB` handles
+replication. It's interesting to see a relatively new database using a kind of
+statement-based replication, and how they enforce determinism to avoid data
+inconsistencies.
+
+* **[(Research report) Notes on Distributed Databases](http://domino.research.ibm.com/library/cyberdig.nsf/papers/A776EC17FC2FCE73852579F100578964/$File/RJ2571.pdf)**  
+This research report from 79 (!) covers a lot of different topics, but the first
+chapter is dedicated to replication. It's amazing to see how little the problems
+that we face have changed, as the network constraints are still the same.
+
+* **[(Article) Eventually Consistent](http://www.allthingsdistributed.com/2008/12/eventually_consistent.html)**  
+This article, buy Amazon's CTO Werner Vogels, is a very good introduction to
+what it means to be eventually consistency. He talks about the trade-offs that
+need to be made in order to achieve high availability in large scale systems
+(like the ones Amazon operates).
+
+* **[(Article) Clocks and Synchronization](http://books.cs.luc.edu/distributedsystems/clocks.html)**  
+This article explains why physical clocks are not reliable.The summary is: When
+building a distributed system, do not take it for granted that you can simply
+trust the clock on the machine that is executing your code.
+
+* **[(Article) CAP Twelve Years Later: How the "Rules" Have Changed](https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed)**  
+This is an article written by Eric Brewer, the guy that first presented the CAP
+theorem in 2000, so it's interesting to see what the author has to say 12 years
+later. Although the theorem can be useful to make us think about the trade-offs
+in a particular design decision, it can also be misleading in some cases.
+
+* **[(Documentation) Berkeley DB Read-Your-Writes Consistency](https://docs.oracle.com/cd/E17276_01/html/gsg_db_rep/C/rywc.html)**  
+This section of the documentation explains how `Berkeley` achieves
+Read-Your-Writes consistency, using the commit token technique described in the
+article.
+
+* **[(Documentation) VoltDB Database Replication](https://docs.voltdb.com/UsingVoltDB/ChapReplication.php)**  
+This section of the documentation is dedicated to explain how VoltDB handles
+replication. It explains the two options available: single and multi-master
+(that they call one-way and two-way replication, respectively).
