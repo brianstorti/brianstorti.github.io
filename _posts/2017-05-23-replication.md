@@ -37,7 +37,7 @@ I am by no means a replication expert, but during this process  I learned a
 thing or two, and that's what I want to share here. This is not supposed to be
 an extensive resource to learn everything there is to know about replication,
 but hopefully it's a good starting point that you can use in your own journey.
-In the end of this article I will link to some great resources what will be
+In the end of this article I will link to some great resources that can be
 helpful if you decide to learn more.
 
 Sounds good? Cool, grab a cup of coffee and let's have fun.
@@ -54,7 +54,7 @@ it (e.g. a set of tables). These multiple locations where we will keep the data
 are usually connected by a network, and that's the origin of most of our
 headaches, as you will see in a bit.
 
-The reason for wanting that will be one of more of the following:
+The reason for wanting that will be one or more of the following:
 
 * You want to keep the data closer to your users so you can save the travel
 time. Remember, no matter how fast your database is, the data still needs to
@@ -68,17 +68,15 @@ serve. In that case, having several databases with the same data helps you serve
 more clients. That's what we call scaling _horizontally_ (as opposed to
 _vertically_, which means having a more powerful machine).
 
-* You want to be safe in case of failures (that will happen, don't fool
-yourself). Imagine you have your data in single database server and that server
-catches fire, then what happens? I am sure you have some sort of backup
-(right?!), but your backup will a) take some time to be restored and b) probably
-be _at least_ a couple of hours old. Not cool. Having a replica means you can
-just start sending your requests to this server while you are solving the fire
-situation, and it's likely that no one will even notice that something bad
-happened.
+* You want to be safe in case of failures (that will happen). Imagine you have
+your data in single database server and that server catches fire, then what
+happens? I am sure you have some sort of backup (right?!), but your backup will
+a) take some time to be restored and b) probably be _at least_ a couple of hours
+old. Not cool. Having a replica means you can just start sending your requests
+to this server while you are solving the fire situation, and maybe no one will
+even notice that something bad happened.
 
-
-#### And the obligatory CAP introduction
+#### The obligatory CAP introduction
 
 
 The CAP theorem was introduced by Eric Brewer in the year 2000, so it's not a
@@ -104,11 +102,13 @@ your database servers at the exact same time, you will get the same result back.
 **Availability**: It means that reads and writes will always succeed, even if we
 cannot guarantee that it will have the most recent data. In practice, it means
 that we will still be able to use one of our databases, even when it cannot talk
-to the others, and therefore might not have have received the latest updates.
+to the others, and therefore might not have received the latest updates.
 
 **Partition Tolerance**: This means that your system will continue working even
-if there is a network partition. In other words, if the nodes in your cluster
-for some reason cannot talk to each other.
+if there is a network partition. A network partition means that the nodes in
+your cluster cannot talk to each other.
+
+<img src="/assets/images/replication/network-partition.png">
 
 And why am I talking about this? Well, because depending on the route you take
 you will have different trade-offs, sometimes favoring consistency and sometimes
@@ -152,12 +152,11 @@ somewhat like this:
 This looks great, we don't notice any performance impact as the replication
 happens in the background, after we already got a response, and if the
 replica is dead or slow we won't even notice it, as the data was already sent
-back to the client. Life is good. You can feel that now is the time that I will
-crush your dreams, can't you?
+back to the client. Life is good.
 
 There are (at least) two main issues with asynchronous replication. The first is
 that we are weakening our durability guarantees, and the other is that we are
-exposed to replication lags. We will talk about the replication lag later, let's
+exposed to replication lags. We will talk about replication lag later, let's
 focus on the durability issue first.
 
 Our problem here is that if the node that received this write request fails
@@ -168,7 +167,7 @@ though we sent a confirmation to the client.
 
 You may be asking yourself
 
-> "Jezz, but what are the chances of a failure happening right at THAT moment?!"
+> "But what are the chances of a failure happening right at THAT moment?!"
 
 If that's the case, I'll suggest that you instead ask 
 
@@ -208,7 +207,13 @@ specific case).
 
 There's some middle ground. Some databases and replication tools allow us to
 define a number of followers to replicate synchronously, and the others just use
-the asynchronous approach. This is sometimes called _semi-synchronous replication_.
+the asynchronous approach. This is sometimes called _semi-synchronous
+replication_. 
+
+As an example, in `Postgres` you can define a configuration called
+[`synchronous_standby_names`](https://www.postgresql.org/docs/9.6/static/runtime-config-replication.html)
+to specify which replicas will receive the updates synchronously, and the other
+replicas will just receive them asynchronously.
 
 #### Single leader replication
 
@@ -232,13 +237,13 @@ So, what are the problem that we need to keep in mind if we decide to go with
 the single leader approach? The first one is that we need to make sure that just
 one node is able to handle all the writes. Although we can split the read work
 across the entire cluster, all the writes are going to a single server, and if
-you application is very write-intensive that might be a problem. Keep in mind
+your application is very write-intensive that might be a problem. Keep in mind
 though, that most application read a lot more data than they write, so you need
 to analyze if that's really a problem for you.
 
 Another problem is that you will need to pay the latency price on writes.
 Remember our colleagues in Asia? Well, when they want to update some data, that
-query will still needs to travel the globe before they get a response.
+query will still need to travel the globe before they get a response.
 
 Lastly, although this is not really a problem just for single leader
 replication, you need to think about what will happen when the leader node dies.
@@ -338,7 +343,7 @@ that are closer to the clients.
 <img src="/assets/images/replication/multi-leader.png">
 
 If your application needs to handle a very high number of writes, it might make
-sense to split that work between multiple leaders. Also, if the latency price
+sense to split that work across multiple leaders. Also, if the latency price
 to write in a database that is very far is too high, you could have one leader
 in each location (for example, one in North America, one in Europe and another
 in Asia).
@@ -376,7 +381,7 @@ are written to the leader in Europe. This way you can avoid conflicts, as the
 writes to the same projects will be sent to the same leader. Also, if we assume
 that the clients updating these projects will probably be in their respective
 offices (e.g. people in the New York office will update the American projects,
-that will be send to the leader in North America), we can ensure that they are
+that will be sent to the leader in North America), we can ensure that they are
 accessing a database geographically close to them.
 
 Of course, this is a very biased example, and not every application can
@@ -426,7 +431,7 @@ the database. [CouchDB](http://couchdb.apache.org/), for example, does that.
 
 There is also a relatively new family of data structures that provide automatic
 conflict resolution. They are called _Conflict-free replicated data type_, or
-_CRDT_, and to still the
+_CRDT_, and to steal the
 [wikipedia](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type)
 definition:
 
@@ -479,13 +484,12 @@ The main problem here is that messages can arrive out of order. For example, if
 a node `A` inserts a row, and then node `B` updates this row, but node `C`
 receives the update before the insert, we will have problems.
 
-This is a _causaility problem_, we need to make sure that all the nodes first
+This is a _causality problem_, we need to make sure that all the nodes first
 process the insert event before processing the update event. There are different
 ways to solve this problem (for instance, using [logical
 clocks](https://en.wikipedia.org/wiki/Logical_clock)), but the point is: You
-need to make sure your database or replication tool is actually handling this if
-it's using this topology, or at least be aware that this is a failure that can
-happen, in case it doesn't (like most do).
+need to make sure your database or replication tool is actually handling this
+issue, or, in case it's not, be aware that this is a failure that can happen.
 
 Another alternative is to use what some databases call the _start topology_.
 
@@ -511,10 +515,10 @@ It seems like this is going to be a mess, doesn't it? If we had lots of
 conflicts to handle with a few leaders, imagine what will happen when writes are
 taking place everywhere. Chaos!
 
-Well, it turns out these database folks are not dumb, and there are some clever
-ways to deal with this chaos.
+Well, it turns out these database folks are quite smart, and there are some
+clever ways to deal with this chaos.
 
-The basic idea is that clients will send writes no only to one replica, but to
+The basic idea is that clients will send writes not only to one replica, but to
 several (or, in some cases, to all of them).
 
 <img src="/assets/images/replication/leaderless.png">
@@ -563,8 +567,8 @@ with the correct value. This is usually called _read repair_.
 
 The other solution, having a background process fixing the data, really depends
 on the database implementation, and there are several ways to do that, depending
-on how the data is stored. For example, `DynamoDB` uses an anti-entropy using
-Merkle trees.
+on how the data is stored. For example, `DynamoDB` has an _anti-entropy_ process
+using Merkle trees.
 
 ##### Quorums
 
@@ -624,7 +628,7 @@ replication, as the probability of one these many nodes being down when we need
 to replicate an update increases, and our availability decreases. The only
 feasible solution in this case is to use asynchronous replication, that is, we
 can still perform updates even if a node is not responding, and when this
-replica back up it should catch up with the leader.
+replica is back up it should catch up with the leader.
 
 We've already discussed the benefits and challenges in using synchronous and
 asynchronous replication, so I'll not talk about that again, but assuming we are
@@ -634,7 +638,7 @@ update is applied in the leader node and the time it's applied in a given replic
 
 <img src="/assets/images/replication/replication-lag.png">
 
-If a client reads this replica during this period, it will receive outdated
+If a client reads from this replica during this period, it will receive outdated
 information, because the latest update(s) were not applied yet. In other words,
 if you send the same query to 2 different server, you may get 2 different
 answers. As you may remember when we talked about the CAP theorem, this breaks
@@ -649,7 +653,7 @@ in a couple of milliseconds.
 
 Unfortunately, we cannot expect that to always be the case, and we need to plan
 for the worst. Maybe the network is slow, or the server is operating near
-capacity and is not replication the updates as fast as we'd except, and this
+capacity and is not replicating the updates as fast as we'd except, and this
 replication lag can increase. Maybe it will increase a couple of seconds, maybe
 minutes. What happens then?
 
@@ -687,8 +691,9 @@ the user will not be able to write/change it), but when viewing their own
 timeline, read from the leader, to ensure we don't miss any update.
 
 Now, if there are lots of things that can be changed by every user, that doesn't
-really make a lot of sense, as we would end up sending all the reads to the
-leader, so in this case we need a different strategy.
+really work very well, as we would end up sending all the reads to the leader,
+defeating the whole purpose of having replicas, so in this case we need a
+different strategy.
 
 Another technique that can be used is to track the timestamp of the last write
 request and for the next, say, 10 seconds, send all the read requests to the
@@ -710,10 +715,8 @@ request, or it can just reject it, and the client can try another replica.
 As always, there are no right answers here, and I am sure there lots of other
 techniques that can be used to work around this problem, but you need to know
 how your system will behave when facing a large replication lag and if
-_read-your-writes_ is a guarantee you really need to provide. There are
-databases and replication tools that will simply ignore this issue, so you need
-to be prepared when you receive that weird and impossible to reproduce bug
-report.
+_read-your-writes_ is a guarantee you really need to provide, as there are
+databases and replication tools that will simply ignore this issue.
 
 ##### Monotonic Reads consistency
 
@@ -757,7 +760,7 @@ updates, or anything that is meaningful the application.
 #### Delayed replicas
 
 We talked about replication lags, some of the problems that we can have when
-this lag increases too much, and how to deal with these problems. Now, sometimes
+this lag increases too much, and how to deal with these problems, but sometimes
 we may actually _want_ this lag. In other words, we want a _delayed replica_.
 
 We will not really read (or write) from this replica, it will just sit there,
@@ -768,10 +771,10 @@ Well, imagine that you release a new version of your application, and a bug
 introduced in this release starts deleting all the records from your `orders`
 table. You notice the issue and rollback this release, but the deleted data is
 gone. Your replicas are not very useful at this point, as all these deletions
-were already replicated and you have the same messy database replicated.  
-You could start restore a backup, but if you have a big database you probably
+were already replicated and you have the same messy database replicated.  You
+could start to restore a backup, but if you have a big database you probably
 won't have a backup running every couple of minutes, and the process to restore
-a database usually takes a lot of time.
+a database can take a lot of time.
 
 That's were a delayed replica can save the day. Let's say you have a replica
 that is always 1 hour behind the leader. As long as you noticed the issue in
@@ -808,10 +811,10 @@ replica re-execute them would lead to inconsistent data.
 Most databases and replication tools that use statement-based replication (e.g.
 `MySQL` before 5.1) will try to replace these nondeterministic function calls
 with fixed values to avoid these problems, but it's hard to account for every
-case. For example, an user-defined function can be used, or a trigger can be
+case. For example, a user-defined function can be used, or a trigger can be
 called after an update, and it's hard to guarantee determinism in these cases.
-[`VoltDB`](https://www.voltdb.com/) uses logical replication but [requires
-stored procedures to be
+[`VoltDB`](https://www.voltdb.com/), for instance, uses logical replication but
+[requires stored procedures to be
 deterministic](https://docs.voltdb.com/UsingVoltDB/DesignProc.php#DesignProcDeterminism).
 
 Another important requirement is that we need to make sure that all transactions
@@ -833,10 +836,10 @@ to be read by humans, but machines can interpret them pretty efficiently.
 The idea of log shipping replication is to transfer these log files to the
 replicas, that can then apply them to get the exact same result.
 
-The main limitation that we have when shipping these log is that, as it describe
-the changes at such a low level, we probably won't be able to replicate a log
-generated by a different version of the database, for example, as the way the
-data is physically stored may have changed.
+The main limitation that we have when shipping these logs is that, as it
+describes the changes at such a low level, we probably won't be able to replicate
+a log generated by a different version of the database, for example, as the way
+the data is physically stored may have changed.
 
 Another issue is that we cannot use multi-master replication with log shipping,
 as there's no way to unify multiple logs into one, and if data is changing in
@@ -918,7 +921,7 @@ systems and _primary-copy/update- everywhere_ for databases).
 Dynamo is the key value data storage created by Amazon that popularized the idea
 of leaderless databases. This is the paper that explains (at least
 superficially) how it works. It's interesting to see how they handle conflicts
-(letting the clients resolve them) and also use some techniques not explores in
+(letting the clients resolve them) and also use some techniques not explored in
 this post, like sloppy quorums (as opposed to strict quorums) and hinted
 handoff to achieve more availability. The paper is 10 years old already and I'm
 sure a few things changed, but it's an interesting read anyway.
@@ -969,8 +972,8 @@ in a particular design decision, it can also be misleading in some cases.
 
 * **[(Documentation) Berkeley DB Read-Your-Writes Consistency](https://docs.oracle.com/cd/E17276_01/html/gsg_db_rep/C/rywc.html)**  
 This section of the documentation explains how `Berkeley` achieves
-Read-Your-Writes consistency, using the commit token technique described in the
-article.
+Read-Your-Writes consistency, using the commit token technique that we discussed
+here.
 
 * **[(Documentation) VoltDB Database Replication](https://docs.voltdb.com/UsingVoltDB/ChapReplication.php)**  
 This section of the documentation is dedicated to explain how VoltDB handles
