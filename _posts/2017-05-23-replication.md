@@ -2,7 +2,7 @@
 layout: post
 title: A Primer on Database Replication
 meta: replication
-draft: true
+draft: false
 ---
 
 Replicating a database can make our applications faster and increase our
