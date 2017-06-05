@@ -130,7 +130,7 @@ so there is nothing different from the examples that we have seen so far.
 
 ### Conclusion
 
-`sed` is a very powerful tool that can save us precious time with just a fell keystrokes. We always try to use the best tool for the job, and `sed` is a good candidate for a lot
+`sed` is a very powerful tool that can save us precious time with just a few keystrokes. We always try to use the best tool for the job, and `sed` is a good candidate for a lot
 of common jobs that we have to do quite frequently.  
 
 I covered here just the basics of how to use it to perform some simple tasks, but your

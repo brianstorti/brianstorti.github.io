@@ -109,7 +109,7 @@ It's also a great place to find inspiration and see how the commands that you us
 
 # Implementing the functionality
 
-Implementing our functionality is just a matter of calling a command in this `execute` method. I'll just use the `open` command here, that should work just for OS X, fell free to implement it the way you like.
+Implementing our functionality is just a matter of calling a command in this `execute` method. I'll just use the `open` command here, that should work just for OS X, feel free to implement it the way you like.
 
 ```ruby
 def execute

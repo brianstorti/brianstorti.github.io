@@ -12,7 +12,7 @@ priority queue implementation in its standard library. How hard could it be to i
 ### First, some definitions
 
 I just want to define what a queue and a priority queue are before we go to the implementation. If you are already comfortable with these definitions,
-fell free to jump to the next section.
+feel free to jump to the next section.
 
 A queue is a data structure in which the items added first, will be the first to be removed, also known as first-in first-out. Ruby has a queue implementation
 in its standard library, and the usage is quite simple: 
