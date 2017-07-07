@@ -226,8 +226,9 @@ deadlock situation, where the receiver is waiting for more data, and the sender
 is waiting for a message saying it can start sending data again.
 
 To solve this problem, when `TCP` receives a zero-window message it starts the
-_persist timer_, that will periodically send a small packet to the receiver, so
-it has a chance to advertise a nonzero window size.
+_persist timer_, that will periodically send a small packet to the receiver
+(usually called `WindowProbe`), so it has a chance to advertise a nonzero window
+size.
 
 <a href="/assets/images/tcp-flow-control/window-probe.png" target="_blank">
   <img src="/assets/images/tcp-flow-control/window-probe.png">
