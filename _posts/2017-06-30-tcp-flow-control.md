@@ -78,11 +78,12 @@ the connection between node A and B is established, node B advertises a receive
 window of 45000 bytes, because it really wants to help us with our math here.
 
 Seeing that, `TCP` knows it can send the first 30 packets (1500 * 30 = 45000)
-before it receives an acknowledgment for the first packet. If it gets an `ack`
-message for the first 10 packets it sent, and the receive window present in
-these `ack` messages is still 45000, it can send the next 10 packet. At any
-given point in time it can have 30 packets in flight, that were sent but not yet
-`ack`ed.
+before it receives an acknowledgment. If it gets an `ack` message for the first
+10 packets (meaning we now have only 20 packets in flight), and the receive
+window present in these `ack` messages is still 45000, it can send the next 10
+packets, bringing the number of packets in flight back to 30, that is the limit
+defined by the receive window. In other words, at any given point in time it can
+have 30 packets in flight, that were sent but not yet `ack`ed.
 
 <img src="/assets/images/tcp-flow-control/sliding-window.png">
 <div class="image-description">
@@ -97,7 +98,7 @@ decides to read them, the receive window will be smaller, so even if `TCP`
 receives the acknowledgment for the next 10 packets (meaning there are currently 20
 packets, or 30000 bytes, in flight), but the receive window value received in
 this `ack` is now 30000 (instead of 45000), it will not send more packets, as
-the number of bytes in flight is already equal the latest receive window
+the number of bytes in flight is already equal to the latest receive window
 advertised.
 
 The sender will always keep this invariant: 
