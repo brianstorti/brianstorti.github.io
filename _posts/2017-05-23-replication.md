@@ -23,6 +23,14 @@ could just keep increasing our database server capacity, getting a more powerful
 machine, adding more RAM, and keep scaling vertically, but there is one problem
 that we cannot solve, unfortunately: The limit of the speed of light.
 
+> Light travels with a speed of 299,792 km/s in a vacuum. Even if we assume that
+> our requests are traveling at this speed, and that they travel in a straight
+> line, it would still take 133ms for a round the world trip. In reality, our
+> requests will be slower than the speed of light and there will be a lot of zig
+> zag from one hop to another until they reach their destination.
+
+<img src="/assets/images/replication/ping-table.png">
+
 No matter how quickly we can _execute_ a query, if the database is in North
 America, the data still needs to travel all the way to Asia before people in
 that office can use it. It was clear that we had to make that data available
@@ -937,7 +945,7 @@ guarantees that are ignored.
 * **[(Paper) Replicated Data Consistency Explained Through Baseball](https://www.microsoft.com/en-us/research/publication/replicated-data-consistency-explained-through-baseball/)**  
 This paper describes six consistency guarantees and tries to define how each
 participant (scorekeeper, umpire, etc.) in a baseball game would require a
-different guarantee. What I think that is interesting in this paper is that it
+different guarantee. What I think is interesting in this paper is that it
 shows that every consistency model can be useful depending on the situation,
 sometimes it's fine to live with eventual consistency, and sometimes you need
 stronger guarantees (e.g. read-your-writes, described above).
@@ -954,7 +962,7 @@ chapter is dedicated to replication. It's amazing to see how little the problems
 that we face have changed, as the network constraints are still the same.
 
 * **[(Article) Eventually Consistent](http://www.allthingsdistributed.com/2008/12/eventually_consistent.html)**  
-This article, buy Amazon's CTO Werner Vogels, is a very good introduction to
+This article, by Amazon's CTO Werner Vogels, is a very good introduction to
 what it means to be eventually consistency. He talks about the trade-offs that
 need to be made in order to achieve high availability in large scale systems
 (like the ones Amazon operates).

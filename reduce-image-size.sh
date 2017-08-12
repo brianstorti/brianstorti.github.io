@@ -1,3 +1,3 @@
 #!/bin/bash
 
-pngquant --ext .png --skip-if-larger --force $1
+./pngquant --ext .png --skip-if-larger --force $1
