@@ -241,12 +241,12 @@ servers at the same time, we need to somehow resolve the conflict that will
 happen if they both try to change the same _object_, with different values (more
 on that later).
 
-So, what are the problem that we need to keep in mind if we decide to go with
+So, what are the problems that we need to keep in mind if we decide to go with
 the single leader approach? The first one is that we need to make sure that just
 one node is able to handle all the writes. Although we can split the read work
 across the entire cluster, all the writes are going to a single server, and if
 your application is very write-intensive that might be a problem. Keep in mind
-though, that most application read a lot more data than they write, so you need
+though, that most applications read a lot more data than they write, so you need
 to analyze if that's really a problem for you.
 
 Another problem is that you will need to pay the latency price on writes.
