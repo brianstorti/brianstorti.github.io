@@ -239,7 +239,7 @@ non-zero window size and the transmission can continue.
 
 #### Recap
 
-* `TCP`'s flow control is mechanism to ensure the sender is not overwhelming the
+* `TCP`'s flow control is a mechanism to ensure the sender is not overwhelming the
 receiver with more data than it can handle;
 * With every `ack` message the receiver advertises its current receive window;
 * The receive window is the spare space in the receive buffer, that is,
