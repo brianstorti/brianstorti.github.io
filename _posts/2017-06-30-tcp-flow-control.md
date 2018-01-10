@@ -160,7 +160,7 @@ Now let's run this command to create a stream of data. It will simply add the
 string "foo" to a file, that we will use to send to this application:
 
 ```
-$ while [ true ]; do echo "foo" > stream.txt; done
+$ while true; do echo "foo" > stream.txt; done
 ```
 
 And now let's send this data to the application:
