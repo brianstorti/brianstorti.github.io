@@ -64,7 +64,7 @@ it designates that for the next message it receives, the state will be `1`.
 
 `Erlang` introduced the "let it crash" philosophy. The idea is that you shouldn't need to program defensively, trying to anticipate all the possible problems
 that could happen and find a way to handle them, simply because there is no way to think about every single failure point.  
-What `Erlang` does is simply letting it crash, but make this critical code be supervised by someone which only responsibility is to know what to do when this crash happens
+What `Erlang` does is simply letting it crash, but make this critical code be supervised by someone whose only responsibility is to know what to do when this crash happens
 (like resetting this unit of code to a stable state), and what makes it all possible is the actor model.
 
 Every code run inside a `process` (that is basically how `Erlang` calls its actors). This `process` is completely isolated, meaning its state is not going to influence any
