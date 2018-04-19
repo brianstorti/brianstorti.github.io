@@ -20,7 +20,7 @@ probably `Erlang`. I'll try to focus more on the model itself and not in how it'
 
 An actor is the primitive unit of computation. It's the *thing* that receives a message and do some kind of computation based on it.  
 
-The idea is very similar to what we have in object-oriented languages: An object receives a message (a method call) and do something depending
+The idea is very similar to what we have in object-oriented languages: An object receives a message (a method call) and does something depending
 on which message it receives (which method we are calling).  
 The main difference is that actors are completely isolated from each other and they will never share memory. It's also worth noting
 that an actor can maintain a private state that can never be changed directly by another actor.
@@ -49,9 +49,9 @@ where these messages are stored.
 
 When an actor receives a message, it can do one of these 3 things:
 
-* Create more actors;
-* Send messages to other actors;
-* Designates what to do with the next message.
+* Create more actors
+* Send messages to other actors
+* Designate what to do with the next message
 
 The first two bullet points are pretty straightforward, but the last one is interesting.  
 I said before that an actor can maintain a private state. "Designating what to do with the next message" basically means defining how this state will look like
