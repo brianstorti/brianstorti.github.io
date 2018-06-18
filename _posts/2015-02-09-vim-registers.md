@@ -10,7 +10,7 @@ Bear with me and you won't be one of them.
 
 ### If you have no idea what I'm talking about
 
-You can think of registers as a bunch of spaces in memory that `vim` uses to store some text. Each of these spaces has a identifier, so it can be accessed later.  
+You can think of registers as a bunch of spaces in memory that `vim` uses to store some text. Each of these spaces have a identifier, so it can be accessed later.  
 It's no different than when you copy some text to your clipboard, except that you usually have just one clipboard to copy to, while `vim` allows you to have multiple
 places to store different texts.
 
