@@ -499,7 +499,7 @@ clocks](https://en.wikipedia.org/wiki/Logical_clock)), but the point is: You
 need to make sure your database or replication tool is actually handling this
 issue, or, in case it's not, be aware that this is a failure that can happen.
 
-Another alternative is to use what some databases call the _start topology_.
+Another alternative is to use what some databases call the _star topology_.
 
 <img src="/assets/images/replication/star.png">
 
