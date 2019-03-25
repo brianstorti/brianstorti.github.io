@@ -611,6 +611,18 @@ margin on the iframe, cause it breaks stuff. */
   background-color: #F7FAFB;
 }
 
+.buy-pdf {
+  padding: 30px;
+  margin-bottom: 30px;
+  border-style: dashed;
+  border-width: 2px;
+  background-color: #fffde3;
+}
+
+.buy-pdf h4 {
+  font-size: 2.5rem;
+}
+
 /* ==========================================================================
    6. Third Party Elements - Embeds from other services
    ========================================================================== */

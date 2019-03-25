@@ -5,6 +5,11 @@ meta: replication
 draft: false
 ---
 
+<script src="https://gumroad.com/js/gumroad.js"></script>
+<a class="gumroad-button" href="https://gum.co/replication" data-gumroad-single-product="true" target="_blank">
+  Get as PDF or ePub
+</a>
+
 Replicating a database can make our applications faster and increase our
 tolerance to failures, but there are a lot of different options available and
 each one comes with a price tag. It's hard to make the right choice if we do not
@@ -987,3 +992,10 @@ here.
 This section of the documentation is dedicated to explain how VoltDB handles
 replication. It explains the two options available: single and multi-master
 (that they call one-way and two-way replication, respectively).
+
+
+<div class='buy-pdf'>
+  <h4>Did you find this article useful?</h4>
+  <p>You can get it as a beautiful PDF or ePub and help support this blog!</p>
+  <a class="gumroad-button" href="https://gum.co/replication" target="_blank">Pay what you want</a>
+</div>
