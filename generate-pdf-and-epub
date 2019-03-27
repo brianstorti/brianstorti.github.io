@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+pandoc "$1" --highlight-style pandoc.theme -o post.pdf --variable urlcolor=blue
+pandoc "$1" -o post.epub
