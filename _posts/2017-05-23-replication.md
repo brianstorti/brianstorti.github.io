@@ -3,6 +3,7 @@ layout: post
 title: A Primer on Database Replication
 meta: replication
 draft: false
+intro: Replicating a database can make our applications faster and increase our tolerance to failures, but there are a lot of different options available and each one comes with a price tag. It's hard to make the right choice if we do not understand how the tools we are using work, and what are the guarantees they provide (or, more importantly, do _not_ provide), and that's what I want to explore here.
 ---
 
 <script src="https://gumroad.com/js/gumroad.js"></script>
