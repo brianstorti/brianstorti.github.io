@@ -159,13 +159,13 @@ window size advertised:
 Now let's run this command to create a stream of data. It will simply add the
 string "foo" to a file, that we will use to send to this application:
 
-```
+```bash
 $ while true; do echo "foo" > stream.txt; done
 ```
 
 And now let's send this data to the application:
 
-```
+```bash
 tail -f stream.txt | nc localhost 3040
 ```
 
@@ -251,3 +251,11 @@ the persist timer;
 * It will then periodically send a small `WindowProbe` message to the receiver
 to check if it can start receiving data again;
 * When it receives a non-zero window size, it resumes the transmission.
+
+
+<div class='buy-pdf'>
+  <h4>Did you find this article useful?</h4>
+  <p>You can get it as a beautiful PDF or ePub (and help support this blog if you want :)!</p>
+  <script src="https://gumroad.com/js/gumroad.js"></script>
+  <a class="gumroad-button" href="https://gum.co/tcp-flow-control" target="_blank">Gimme</a>
+</div>
