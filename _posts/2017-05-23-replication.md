@@ -995,8 +995,4 @@ replication. It explains the two options available: single and multi-master
 (that they call one-way and two-way replication, respectively).
 
 
-<div class='buy-pdf'>
-  <h4>Did you find this article useful?</h4>
-  <p>You can get it as a beautiful PDF or ePub and help support this blog!</p>
-  <a class="gumroad-button" href="https://gum.co/replication" target="_blank">Pay what you want</a>
-</div>
+<a class="gumroad-button" href="https://gum.co/replication" target="_blank">Get PDF</a>
