@@ -286,7 +286,7 @@ To quote the [documentation](http://elixir-lang.org/docs/stable/elixir/GenServer
 >
 > **{:via, module, term}** - the GenServer is registered with the given mechanism and name.
 
-The first option, an `atom`, is what we have been using so far and we know it's now enough for our needs now.  
+The first option, an `atom`, is what we have been using so far and we know it's not enough for our needs now.  
 
 The second option is used to register a process globally, across multiple nodes, and relies on a local `ETS` table. This also
 means it requires synchronization across the entire cluster, which introduces some unnecessary overhead unless you actually need this behavior.
