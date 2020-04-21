@@ -36,7 +36,7 @@ def my_plug(conn, opts) do
 end
 ```
 
-A **module plug** is any module that implements two function: `init/1` and `call/2`, like this:
+A **module plug** is any module that implements two functions: `init/1` and `call/2`, like this:
 
 ```elixir
 module MyPlug do
@@ -183,7 +183,9 @@ are available out of the box, you can find the list and descriptions in the [doc
 
 Using this pipeline is as simple as using a single plug: 
 
-`Plug.Adapters.Cowboy.http MyPipeline, %{}`.  
+```elixir
+Plug.Adapters.Cowboy.http MyPipeline, %{}
+```
 
 One important thing to keep in mind is that the plugs will always be executed in the order they are defined in the pipeline.
 
