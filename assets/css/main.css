@@ -62,3 +62,11 @@ img.profile {
   padding: 15px;
   margin: 15px;
 }
+
+.book-top-banner {
+  background-color: #fffde3;
+  text-align:center;
+  padding: 10px;
+  font-family: 'Shadows Into Light', cursive;
+  font-size: 24px;
+}
