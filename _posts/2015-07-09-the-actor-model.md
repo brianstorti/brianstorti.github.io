@@ -91,9 +91,9 @@ like `Akka` (for the `JVM`) and `Celluloid` (for `Ruby`).
 If I was successful in making you curious about how this model is implemented and used in the real world,
 this is the list of books that I read or am reading about this topic and can recommend:
 
-* [Seven Concurrency Models in Seven Weeks: When Threads Unravel](https://pragprog.com/book/pb7con/seven-concurrency-models-in-seven-weeks)
-* [Programming Elixir](https://pragprog.com/book/elixir/programming-elixir)
-* [Elixir in Action](http://www.manning.com/juric/)
+* [Seven Concurrency Models in Seven Weeks: When Threads Unravel](https://amzn.to/2Lt60mA)
+* [Programming Elixir](https://amzn.to/3qh1w1h)
+* [Elixir in Action](https://amzn.to/39yvY0b)
 
 And if you are interested in more details about the conceptual idea itself, I can't recommend this video enough:
 
