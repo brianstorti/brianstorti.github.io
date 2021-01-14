@@ -252,6 +252,9 @@ the persist timer;
 to check if it can start receiving data again;
 * When it receives a non-zero window size, it resumes the transmission.
 
+If you want to learn more about TCP (and _a lot_ more), the book [Computer
+Networking: A Top-Down Approach](https://amzn.to/2KcHdCJ) is a great resource.
+
 
 <script src="https://gumroad.com/js/gumroad.js"></script>
 <a class="gumroad-button" href="https://gum.co/tcp-flow-control" target="_blank">Get PDF</a>
