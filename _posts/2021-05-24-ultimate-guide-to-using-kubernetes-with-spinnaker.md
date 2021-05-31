@@ -121,7 +121,16 @@ Assuming you have `kubectl` running and using the same context you used for Spin
 
 ```
 $ kubectl get pods --namespace spinnaker
-# TODO add output here
+
+# spin-clouddriver-648796f8d8-d8rfs   0/1     ContainerCreating   0          12s
+# spin-deck-77444987dd-r4fkl          0/1     ContainerCreating   0          12s
+# spin-echo-f6d78ddd5-f5m6p           0/1     ContainerCreating   0          12s
+# spin-front50-5d9c9fbd65-gpqt8       0/1     ContainerCreating   0          12s
+# spin-gate-76db474459-f6wf5          0/1     ContainerCreating   0          12s
+# spin-igor-555cd9745b-xzrwr          0/1     ContainerCreating   0          12s
+# spin-orca-6648cb9875-nvzs9          0/1     ContainerCreating   0          12s
+# spin-redis-6f84989bfd-rdpmn         0/1     ContainerCreating   0          12s
+# spin-rosco-7c468bc6dc-nnpwh         0/1     ContainerCreating   0          12s
 ```
 
 #### Accessing Spinnaker locally
@@ -141,18 +150,249 @@ $ kubectl -n spinnaker port-forward service/spin-deck 9000
 
 And that's it, you'll be able to access Spinnaker locally on `http://localhost:9000`.
 
-```
-echo "my github token" > github-token # token with repo access
-hal config artifact github account add my-github-account --token-file github-token
+<img src="/assets/images/spinnaker/01.png">
 
-hal config provider docker-registry enable
-hal config provider docker-registry account add my-docker-registry \
+## Deploying Your First Service With Spinnaker
+
+To get a taste of Spinnaker, you will create your first pipeline, deploying a simple `nginx` container.
+
+In the Spinnaker home page, click the `Create Application` button and set a name and the owner email.
+
+<img src="/assets/images/spinnaker/02.png">
+
+On the left side, click on the `Pipelines` menu, and then `Configure a new pipeline`.
+
+<img src="/assets/images/spinnaker/03.png">
+
+Give this pipeline a name, like `Deploy Nginx` and click `Create`.
+
+You will be taken to the pipeline configuration page. Every pipeline is composed of a configuration and one or more _stages_ and each stage can have a different _type_.
+
+For this example, you don't need to change any configuration, so just create a new stage by clicking the `Add stage` button.
+
+In the new stage page, you will select the type `Deploy (Manifest)`, which is used to deploy Kubernetes manifests, and the account `demo-account`, that is where this manifest will be applied. If you had multiple clusters, like one of Staging and another for Production, each one would be a different `account`, and this setting is what would tell Spinnaker in which cluster that stage should run.
+
+<img src="/assets/images/spinnaker/04.png">
+
+In the `Manifest Configuration` section of this same page is where we can define where the manifest will come from. We can either have the manifest text hard-coded in the page, or choose an artifact, which means an object that references an external source, like, for instance, a github file.
+
+To keep things simple for now, you can select `text` and paste a manifest directly in the Spinnaker UI. Here's a simple manifest defining a Kubernetes service and a deployment for `nginx`:
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc
+  namespace: default
+spec:
+  selector:
+    app: nginx
+  ports:
+  - port: 80
+    targetPort: 80
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: nginx
+        name: nginx-container
+```
+
+<img src="/assets/images/spinnaker/05.png">
+
+You can now save these changes and go back to the Pipelines page, where you will see the pipeline you just created. On the right side of this pipeline you can `Start Manual Execution` to manually trigger the pipeline.
+
+<img src="/assets/images/spinnaker/06.png">
+
+After it finishes running, you can confirm with `kubectl` that a new service and pod were created:
+
+```
+$ kubectl get pod,svc
+
+NAME                         READY   STATUS    RESTARTS   AGE
+pod/nginx-7bc7d78944-cm7qs   1/1     Running   0          90s
+
+NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+service/nginx-svc    ClusterIP   10.104.56.154   <none>        80/TCP    91s
+```
+
+And you can also use `kubectl port-forward` to access `nginx` from your browser on port `8080`:
+
+```
+$ kubectl port-forward service/nginx-svc 8080:80
+```
+
+And that's it, your first service deployed to Kubernetes through Spinnaker!
+
+## Understanding Spinnaker
+
+Before you move ahead, it's important to understand a few terms used by Spinnaker, as it creates some abstractions to work with several different providers and it doesn't always map 1-to-1 with the terminology used in Kubernetes.
+
+There are four main pages that you'll see for your applications:
+
+* **Pipelines**: It's the page you just used to deploy an application. In this page you can create as many pipelines as you want, each one composed of one or more _stages_. For example, you could have two pipelines to deploy your application, one for production and another for staging. In each of these pipelines, you could have a stage to apply a `ConfigMap` with your application's configuration, another stage to run a `Job` that applies your database migrations and a final stage to apply your `Deployment`. Spinnaker provides the building blocks you can use to build the delivery pipeline the way you want.
+
+* **Clusters**: This is where you will see your workloads. In this example, you will see the `nginx` `Deployment` with `ReplicaSet` `v001` and all the `Pods` that are being managed by this `ReplicaSet`.
+
+<img src="/assets/images/spinnaker/07.png">
+
+* **Load Balancers**: This is where Spinnaker shows our Kubernetes `Service`s and `Ingress`es. You can see you have a single service, `nginx-svc`, and all the pods that behind it.
+
+<img src="/assets/images/spinnaker/08.png">
+
+* **Firewalls**: Lastly, we have the `Firewalls`, where Spinnaker shows our `NetworkPolicies`. You haven't create any policies, so this page should be empty. 
+
+It's important to note these terms could mean very different things for different providers. For example, if you were using AWS, you could use Spinnaker to spin up a new Application Load Balancer (ALB).
+
+## Building Your Own Service
+
+Now that you have a better understanding of Spinnaker and how it interacts with Kubernetes, you can create your own service and an entire delivery pipeline end-to-end. The goal is to push a code change to Github and see that change deployed to your Kubernetes cluster, following the steps you define.
+
+#### Creating a simple example service
+
+For this example, I will use a very simple `Ruby` service that just returns the message "Hello, Spinnaker!". Here's the entire code for it:
+
+```ruby
+# app.rb
+require "sinatra"
+set :bind, "0.0.0.0"
+
+get "/" do
+  "Hello, Spinnaker!"
+end
+```
+
+And its `Dockerfile`:
+
+```Dockerfile
+# Dockerfile
+FROM ruby:2.7
+RUN gem install sinatra
+COPY app.rb /
+CMD ["ruby", "app.rb"]
+```
+
+And to test the service is working as expected locally:
+
+```
+$ docker build . -t sample-app
+
+$ docker run -p 4567:4567 sample-app
+
+$ curl http://localhost:4567
+# Hello, Spinnaker!
+```
+
+There you go, you have a simple Dockerized service that's ready to be used for your delivery pipeline!
+
+Now you can push this code to a Github project, like I did [here](https://github.com/brianstorti/sample-app-for-spinnaker).
+
+#### Creating a Dockerhub Project
+
+The next step is to create a repository on Dockerhub. That's where your Docker images will live. You will use Dockerhub to build new images when you push a tag to Github, and that will later trigger a Spinnaker pipeline to deploy this new image.
+
+In your Dockerhub account, create a new repository linked to the Github project that has the code for your sample service and create a build rule to build a new Docker image every time a tag is pushed:
+
+<img src="/assets/images/spinnaker/09.png">
+
+We are using Dockerhub in this example, but there are various other tools you can use to build and store your Docker images. You could, for example, use Jenkins to build an image after your automated tests pass, and push that image to a private repository on Amazon `ECR`.
+
+To make sure everything is working as expected, you can push a new git tag to Github and watch Dockerhub building a Docker image:
+
+```
+$ git tag 1.1 && git push --tags
+```
+
+<img src="/assets/images/spinnaker/10.png">
+
+#### Creating Kubernetes Manifests For Your Service
+
+Lastly, you will create a Kubernetes `Service` and `Deployment` for this service and push to the same Github repository:
+
+```yaml
+# service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-app-svc
+  namespace: default
+spec:
+  selector:
+    app: sample-app
+  ports:
+  - port: 80
+    targetPort: 4567
+```
+
+```yaml
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-app
+  template:
+    metadata:
+      labels:
+        app: sample-app
+    spec:
+      containers:
+      - image: brianstorti/sample-app-for-spinnaker # CHANGE YOUR ACCOUNT
+        name: sample-app
+```
+
+Make sure you change the image in the deployment to it uses your account and repository names. Also note that this deployment is not specifying any specific image tag. That's because you want to let Spinnaker _bind_ the image tag that's received when a pipeline is triggered by Dockerhub.
+
+## Building a Continuous Delivery Pipeline For Your Service
+
+Now that you have Spinnaker up and running and a service on Github that you can push changes to and have new Docker images created by Dockerhub, you are ready to put all the pieces together and create a delivery pipeline that will be triggered when something changes.
+
+#### Configuring `halyard` For Github and Dockerhub
+
+The first step is to enable Github as an artifact provider, so we can get the manifest files, and the Dockerhub provider, so we can make new images trigger a pipeline.
+
+For Github, you'll need to [have a token](https://github.com/settings/tokens) (with the `repo` scope if you want to use a private repository).
+
+In your `halyard` container, first enable the Github artifact source:
+
+```
+$ echo "your github token" > github-token
+$ hal config artifact github account add my-github-account --token-file github-token
+$ hal config artifact github enable
+```
+
+And then enable the Dockerhub provider, changing the `--repositories` value to use your own account name and repository name:
+
+```
+$ hal config provider docker-registry enable
+$ hal config provider docker-registry account add my-docker-registry \
   --address index.docker.io \
   --repositories brianstorti/sample-app-for-spinnaker
 ```
 
-## Deploying Our First Service With Spinnaker
-
-## Building a Delivery Pipeline For Our Own Service
+* Create spinnaker pipeline
+* Add trigger for dockerhub
+* Deploy changes from github manifests
+* Rollback a bad release
 
 ## Conclusion
