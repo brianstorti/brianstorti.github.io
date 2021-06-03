@@ -7,9 +7,12 @@ draft: true
 
 ## Introduction
 
-Spinnaker is an open-source continuous delivery platform created by Netflix to enable engineers to release software changes seemingly. It works natively with several different orchestration tools and cloud providers.
+Spinnaker is an open-source continuous delivery platform created by Netflix to enable engineers to release software changes seemingly.  
+It works natively with several different orchestration tools and cloud providers, Kubernetes being a very common option.
 
 In this article you will setup a new Spinnaker cluster and build a delivery pipeline, having code changes being automatically deployed to your Kubernetes cluster.
+
+Here is an overview of what you are going to build:
 
 ![Deployment Workflow](https://imgur.com/wlayCHc.png)
 
@@ -558,7 +561,7 @@ In this `Deployment Actions` section you can also scale deployments up and down 
 
 ## Conclusion
 
-In this article, you have configured a new Spinnaker cluster, as well as its integration with several other services, like Github and Dockerhub, making it ready to deploy changes to your Kubernetes cluster. You have also built a delivery pipeline that continuously releases changes pushed to Github.
+In this article, you configured a new Spinnaker cluster, as well as its integration with several other services, like Github and Dockerhub, making it ready to deploy changes to your Kubernetes cluster. You have also built a delivery pipeline that continuously releases changes pushed to Github, that should give an idea of one of the many possible ways to build a CI/CD pipeline with Spinnaker and Kubernetes.
 
 Spinnaker is a very mature platform and there are a lot of features that were not covered here. To know more about what Spinnaker can do, check the [official website](https://spinnaker.io/).
 
