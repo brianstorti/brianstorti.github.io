@@ -27,7 +27,7 @@ To follow along, you will need:
 
 Spinnaker is composed of several services that run independently, and running each one of them manually would be a lot of work. Thankfully, the Spinnaker team also provides a CLI tool, called `halyard`, to help installing, configuring, and upgrading Spinnaker.
 
-Using `halyard`, we will run all these services that compose Spinnaker in our Kubernetes cluster. In this article I will run Spinnaker in the same Kubernetes cluster as my applications, but you could also have a dedicated cluster just for Spinnaker.
+Using `halyard`, you will run all these services that compose Spinnaker in your Kubernetes cluster. In this article I will run Spinnaker in the same Kubernetes cluster as my applications, but you could also have a dedicated cluster just for Spinnaker.
 
 #### Running Halyard
 
@@ -76,7 +76,7 @@ $ hal config provider kubernetes account add demo-account \
 
 If you were using multiple cluster, like one for Production and another for Spinnaker, you could add two accounts here, just setting the right context from your `kubeconfig` for each one.
 
-Now that you have your account defined and ready to be used, you can tell halyard that is where our Spinnaker microservices should be deployed to:
+Now that you have your account defined and ready to be used, you can tell halyard that is where your Spinnaker microservices should be deployed to:
 
 ```
 $ hal config deploy edit \
@@ -124,7 +124,7 @@ $ hal config version edit --version 1.25.4
 $ hal deploy apply
 ```
 
-When you run `hal deploy apply`, halyard will check everything is fine and will start running the Spinnaker services in the account we configured.  
+When you run `hal deploy apply`, halyard will check everything is fine and will start running the Spinnaker services in the account you configured.  
 
 Assuming you have `kubectl` running and using the same context you used for Spinnaker (`demo-cluster`), you can see the pods being created in the `spinnaker` namespace:
 
@@ -183,7 +183,7 @@ In the new stage page, you will select the type `Deploy (Manifest)`, which is us
 
 ![Pipeline stage to deploy manifest](https://imgur.com/5crr6gT.png)
 
-In the `Manifest Configuration` section of this same page is where we can define where the manifest will come from. We can either have the manifest text hard-coded in the page, or choose an artifact, which means an object that references an external source, like, for instance, a github file.
+In the `Manifest Configuration` section of this same page is where you can define where the manifest will come from. You can either have the manifest text hard-coded in the page, or choose an artifact, which means an object that references an external source, like, for instance, a github file.
 
 To keep things simple for now, you can select `text` and paste a manifest directly in the Spinnaker UI. Here's a simple manifest defining a Kubernetes service and a deployment for `nginx`:
 
@@ -260,11 +260,11 @@ There are four main pages that you'll see for your applications:
 
 ![Spinnaker clusters view](https://imgur.com/6eoEgLx.png)
 
-* **Load Balancers**: This is where Spinnaker shows our Kubernetes `Service`s and `Ingress`es. You can see you have a single service, `nginx-svc`, and all the pods that behind it.
+* **Load Balancers**: This is where Spinnaker shows your Kubernetes `Service`s and `Ingress`es. You can see you have a single service, `nginx-svc`, and all the pods that behind it.
 
 ![Spinnaker load balancers view](https://imgur.com/sZHiNzv.png)
 
-* **Firewalls**: Lastly, we have the `Firewalls`, where Spinnaker shows our `NetworkPolicies`. You haven't create any policies, so this page should be empty. 
+* **Firewalls**: Lastly, there is the `Firewalls` page, where Spinnaker shows your `NetworkPolicies`. You haven't create any policies, so this page should be empty. 
 
 It's important to note these terms could mean very different things for different providers. For example, if you were using AWS, you could use Spinnaker to spin up a new Application Load Balancer (ALB).
 
@@ -425,7 +425,7 @@ This indicates the trigger is working as expected.
 
 #### Fetching Manifests From Github
 
-You could define your Kubernetes `yaml` manifests directly in Spinnaker, like you did previously for `nginx`, and that works fine, but we lose the benefits of having these manifests versioned with our code, and potentially even making changes to these files in Github trigger a pipeline execution.
+You could define your Kubernetes `yaml` manifests directly in Spinnaker, like you did previously for `nginx`, and that works fine, but you lose the benefits of having these manifests versioned with your code, and potentially even making changes to these files in Github trigger a pipeline execution.
 
 For this sample service, you will make Spinnaker fetch the files directly from the Github repository you created previously. This repo has two manifest files: `service.yaml` and `deployment.yaml`, so you will create two stages in this pipeline you just configured, one to deploy the service, and another to create the Kubernetes `service`.
 
