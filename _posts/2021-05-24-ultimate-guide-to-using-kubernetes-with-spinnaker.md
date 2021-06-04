@@ -40,7 +40,7 @@ $ docker run --name halyard --rm -it \
     us-docker.pkg.dev/spinnaker-community/docker/halyard:stable
 ```
 
-Here you are running a container named `halyard`, using the stable image provided by the Spinnaker team, and mounting 2 volumes: One for the directory where `halyard` stores its configuration, `~/.hal`, and another for your `.kube` directory, because Spinnaker will need to access your `kubeconfig` file.
+Here you are running a container named `halyard`, using the stable image provided by the Spinnaker team, and mounting 2 volumes: One for the directory where `halyard` stores its configurations, `~/.hal`, and another for your `.kube` directory, because Spinnaker will need to access your `kubeconfig` file.
 
 After the `halyard` daemon is running and you start seeing its logs, in another terminal window you can run this command to get a bash session in this container:
 
@@ -48,7 +48,7 @@ After the `halyard` daemon is running and you start seeing its logs, in another 
 $ docker exec -it halyard bash
 ```
 
-And you can make sure `halyard` is running fine running:
+And you can make sure `halyard` is running fine by checking its version:
 
 ```
 $ hal --version
