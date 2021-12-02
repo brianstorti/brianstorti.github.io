@@ -902,7 +902,7 @@ replication made you curious to learn more. If that's the case, here's the list
 of resources that I used (and am still using) in my own studies and can
 recommend:
 
-* **[(Book) Designing Data-Intensive Applications](https://amzn.to/38D6Iqi)**  
+* **[(Book) Designing Data-Intensive Applications](https://amzn.to/3loKhuU)**  
 This is one of the best books I've ever read. It covers lots of different topics
 related to distributed systems, and in the 5th Chapter the author focuses on
 replication. Although it's not specific for databases, most of the topics
@@ -914,7 +914,7 @@ distributed systems in general, but chapters 4 and 5 are focused on replication.
 It explains in a straightforward (and fun) way a lot of important topics that
 were not covered in depth here.
 
-* **[(Book) PostgreSQL Replication](https://amzn.to/3bBXYT3)**  
+* **[(Book) PostgreSQL Replication](https://amzn.to/3IdG07f)**  
 This book is, of course, focused on `PostgreSQL`, but it also presents some
 concepts that are applicable to other RDBMS. Also, it's a good way to see how
 these ideas can be applied in practice. It explains how to setup

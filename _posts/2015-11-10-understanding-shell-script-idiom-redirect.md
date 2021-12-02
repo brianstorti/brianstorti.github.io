@@ -105,4 +105,4 @@ cat: nop.txt: No such file or directory
 * Using `2>&1` will redirect `stderr` to whatever value is set to `stdout` (and `1>&2` will do the opposite).
 
 And if you want to learn more about Shell Script, I highly recommend the [Classic
-Shell Scripting](https://amzn.to/3byA2jD) book.
+Shell Scripting](https://amzn.to/3oeMniV) book.
