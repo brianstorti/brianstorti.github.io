@@ -23,7 +23,7 @@ it's implemented in different languages or libraries.
 ### Actors
 
 An actor is the primitive unit of computation. It's the *thing* that receives a
-message and do some kind of computation based on it.  
+message and does some kind of computation based on it.  
 
 The idea is very similar to what we have in object-oriented languages: An object
 receives a message (a method call) and does something depending on which message
