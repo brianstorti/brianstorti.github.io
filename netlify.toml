@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/symbol-to-proc"
+  to = "/understanding-ruby-idiom-map-with-symbol"
+  status = 301
+  force = false
