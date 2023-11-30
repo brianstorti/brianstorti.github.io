@@ -39,7 +39,8 @@ Notice that if the date format is not correct, it will be considered stale. Also
 are synchronized.
 
 #### Cache-Control
-In HTTP 1.1, the `Expires` header was deprecated and `Cache-Control` is the alternative. If both `Expires` and `Cache-Control` headers are found, `Expires`
+
+In HTTP 1.1, the `Cache-Control` header is an alternative to `Expires`. If both the `Expires` and `Cache-Control` headers are found, `Expires`
 will be ignored.  
 
 `Cache-Control` works with a bunch of directives to specify how it should behave. We will talk about three of them:  `max-age`, `private` and `no-cache`.
