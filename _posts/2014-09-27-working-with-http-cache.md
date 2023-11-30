@@ -23,7 +23,6 @@ served right away.
 There are two [HTTP headers](http://tools.ietf.org/html/rfc2616#section-4.2) used to indicate if a representation is fresh or not: `Expires` and `Cache-Control`.
 
 #### Expires
-*Disclaimer: The `Expires` header is deprecated in HTTP 1.1, and you should avoid it when possible, but it is still widely supported and used, so we will talk about it here.*
 
 The `Expires` header indicates when that representation should be considered stale (not fresh). It expects a specific HTTP date. Here's an example:
 
