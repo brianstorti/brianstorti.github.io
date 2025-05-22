@@ -143,4 +143,4 @@ I covered the things that I use the most, but there is more. If you are curious
 about what a small delete or a black hole register is, you should definitely
 read the short and easy to follow documentation in `:h registers`. And if you
 want to learn more about `vim` in general, the book [Practical
-Vim](https://amzn.to/3xLlaau) is a great resource.
+Vim](https://amzn.to/4mGN0hs) is a great resource.
