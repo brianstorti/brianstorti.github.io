@@ -121,9 +121,9 @@ If I was successful in making you curious about how this model is implemented
 and used in the real world, this is the list of books that I read or am reading
 about this topic and can recommend:
 
-* [Seven Concurrency Models in Seven Weeks: When Threads Unravel](https://amzn.to/3rznII1)
-* [Programming Elixir](https://amzn.to/3xMZcUL)
-* [Elixir in Action](https://amzn.to/3EhOpV2)
+* [Seven Concurrency Models in Seven Weeks](https://amzn.to/45letyM)
+* [Programming Elixir](https://amzn.to/4jj3NUX)
+* [Elixir in Action](https://amzn.to/44Qpt78)
 
 And if you are interested in more details about the conceptual idea itself, I
 can't recommend this video enough:
