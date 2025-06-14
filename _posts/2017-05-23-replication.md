@@ -871,7 +871,7 @@ This is also known as _physical replication_.
 Row-based, or _logical_ replication, is kind of a mix of these two techniques.
 Instead of shipping the internal log (`WAL`), it uses a different log just for
 replication. This log can then be decoupled from the storage engine and
-therefore can be used, in most cases, to replica data across different database
+therefore can be used, in most cases, to replicate data across different database
 versions.
 
 This row-based log will include enough information to uniquely identify a row,

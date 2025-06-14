@@ -31,7 +31,7 @@ When all of your worker processes are busy (maybe just because they are blocked 
 
 ## Buffering reverse proxies for the rescue
 
-A reverse proxy (like [Nginx](http://nginx.com/)) seats in front of your application server (say, Unicorn), and can offer a sort of buffering system.  
+A reverse proxy (like [Nginx](http://nginx.com/)) sits in front of your application server (say, Unicorn), and can offer a sort of buffering system.  
 
 This buffering reverse proxy can handle an "unlimited" number of requests, and is not affected by slow clients.  
 Nginx, for instance, uses a non-blocking Evented I/O model (rather than the I/O blocking forking model that Unicorn uses), which means that,

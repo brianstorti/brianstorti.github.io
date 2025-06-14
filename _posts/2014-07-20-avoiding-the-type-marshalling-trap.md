@@ -89,7 +89,7 @@ And if it wants to show the product price, it needs to know that a product has a
 
 
 
-## The solution: Build you own responses
+## The solution: Build your own responses
 
 If we don't want to expose our internal data structures to the outside world, one approach we can take is simply building our own response object, or, in other words,
 define this resource's  representation.

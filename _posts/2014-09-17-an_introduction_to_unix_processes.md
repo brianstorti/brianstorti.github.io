@@ -46,7 +46,7 @@ $ ps -o pid,ppid,tty,uid,args
 
 **PPID**: That's the parent's PID. Every (well, almost) process has a parent process, the process that was responsible for its creation.  
 
-**TTY**: This is a identifier of the terminal session that triggered this process. That's called the `controlling terminal`. 
+**TTY**: This is an identifier of the terminal session that triggered this process. That's called the `controlling terminal`. 
 Almost every process will be attached to a terminal (except for daemons, that we'll talk about later). In my example you can see that
 I have two terminal sessions running (`ttys000` and `ttys0002`). You can check your current tty with the, surprise, `tty` command:
 

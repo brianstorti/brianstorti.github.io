@@ -81,7 +81,7 @@ The `Last-Modified` header contains a date that tells the client when this repre
 HTTP/1.1 200 OK
 Content-Length: 44181
 Content-type: text/html
-Last-Modified: Sun, 28 Set 2014 10:00:00 GMT
+Last-Modified: Sun, 28 Sep 2014 10:00:00 GMT
 
 [RESPONSE BODY]
 ```
@@ -91,7 +91,7 @@ it includes a `If-Modified-Since` in the request headers, with the date that it 
 
 ```http
 GET / HTTP/1.1
-If-Modified-Since: Sun, 28 Set 2014 10:00:00 GMT
+If-Modified-Since: Sun, 28 Sep 2014 10:00:00 GMT
 
 [REQUEST BODY]
 ```
@@ -102,7 +102,7 @@ just sends a `304 Not Modified` response:
 ```http
 HTTP/1.1 304 Not Modified
 Content-Length: 0
-Last-Modified: Sun, 28 Set 2014 10:00:00 GMT
+Last-Modified: Sun, 28 Sep 2014 10:00:00 GMT
 ```
 
 Even thought we still had to perform a network request, we avoid sending the same representation in the body, saving some bandwidth.

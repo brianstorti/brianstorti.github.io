@@ -111,7 +111,7 @@ If you are confident your script works fine, just pass an empty string, and `sed
 
 ```bash
 $ sed -i'' -e '/foo/d' file.txt
-# file.txt is changed, and not backup is created.
+# file.txt is changed, and no backup is created.
 ```
 
 ##### `sed` works better with friends

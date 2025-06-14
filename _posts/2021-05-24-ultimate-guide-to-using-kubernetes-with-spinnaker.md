@@ -489,7 +489,7 @@ After Spinnaker finishes running, you can see the newly deployed resources in yo
 
 ```
 $ kubectl get deploy,service
-AME                         READY   UP-TO-DATE   AVAILABLE
+NAME                         READY   UP-TO-DATE   AVAILABLE
 deployment.apps/sample-app   1/1     1            1
 
 NAME                     TYPE        CLUSTER-IP

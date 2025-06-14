@@ -466,7 +466,7 @@ And this solves our problem, we can have as many `Chat.Server` processes as we w
 
 There is still a big problem with this solution. Our registry never knows about processes that crashed and had to be restarted
 by the `Supervisor`, and that means that when this happens the registry will hold a `pid` that is not valid anymore.  
-Solving this issue should not be too hard, though, We will make our registry monitor all the process it is taking care of,
+Solving this issue should not be too hard, though. We will make our registry monitor all the processes it is taking care of,
 and when one of them crashed, we can safely remove it from our `Map`. 
 
 ```elixir

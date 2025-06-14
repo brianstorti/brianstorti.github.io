@@ -30,7 +30,7 @@ here
 Waiting for data... (interrupt to abort)
 ```
 
-Here you have pretty much the same behaviour you'd get with `tail`.  
+Here you have pretty much the same behavior you'd get with `tail`.  
 
 Now let's say something interesting appears, and you want to search all the occurrences of "foo". You can just hit `Ctrl-c` to go to "normal" `less` 
 mode (as if you had opened the file without the `+F` flag), and then you have all the normal `less` features you'd expect, including the search with `/foo`. You can go to the next or previous occurrence with `n` or `N`,
